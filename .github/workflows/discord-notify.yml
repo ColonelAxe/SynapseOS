@@ -1,0 +1,68 @@
+name: Discord repository updates
+
+on:
+  push:
+    branches: [dev, main]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send update to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+          SHA: ${{ github.sha }}
+          SERVER_URL: ${{ github.server_url }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RELEASE_NAME: ${{ github.event.release.name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+        run: |
+          node <<'NODE'
+          const url = process.env.DISCORD_WEBHOOK_URL;
+          if (!url) {
+            console.log("DISCORD_WEBHOOK_URL is not configured; skipping notification.");
+            process.exit(0);
+          }
+          const isRelease = process.env.EVENT_NAME === "release";
+          const title = isRelease
+            ? `Release published: ${process.env.RELEASE_NAME || process.env.SHA.slice(0, 7)}`
+            : `Repository update: ${process.env.BRANCH}`;
+          const target = isRelease
+            ? (process.env.RELEASE_URL || `${process.env.SERVER_URL}/${process.env.REPOSITORY}/releases`)
+            : `${process.env.SERVER_URL}/${process.env.REPOSITORY}/commit/${process.env.SHA}`;
+          const payload = {
+            username: "SynapseOS GitHub",
+            embeds: [{
+              title,
+              url: target,
+              description: isRelease
+                ? "A SynapseOS release was published."
+                : `A commit was pushed to **${process.env.REPOSITORY}** on **${process.env.BRANCH}**.`,
+              color: process.env.BRANCH === "main" || isRelease ? 2473984 : 5297631,
+              fields: [
+                { name: "Actor", value: process.env.ACTOR, inline: true },
+                { name: "Commit", value: `[${process.env.SHA.slice(0, 7)}](${process.env.SERVER_URL}/${process.env.REPOSITORY}/commit/${process.env.SHA})`, inline: true }
+              ],
+              footer: { text: `SynapseOS • GitHub Actions run #${process.env.RUN_NUMBER}` },
+              timestamp: new Date().toISOString()
+            }]
+          };
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) {
+            console.error(`Discord webhook returned HTTP ${response.status}`);
+            process.exit(1);
+          }
+          NODE
