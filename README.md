@@ -155,3 +155,8 @@ Use `docs/IN-GAME-TESTS.md` before a public server release. Dedicated-server own
 
 API references: [Bohemia CfgFunctions](https://community.bohemia.net/wiki/CfgFunctions), [ACRE2 functions](https://acre2.idi-systems.com/wiki/frameworks/functions-list), [TFAR repository](https://github.com/michail-nikolaev/task-force-arma-3-radio).
 
+
+
+## Branch workflow
+
+Development and beta testing go to dev. Keep main for reviewed releases and mod updates; promote a validated dev build through a pull request. See [docs/DEVELOPMENT-WORKFLOW.md](docs/DEVELOPMENT-WORKFLOW.md).
