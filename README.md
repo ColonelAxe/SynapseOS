@@ -1,6 +1,6 @@
 # SynapseOS — Modular Tactical Platform
 
-SynapseOS is a modular, cTab-dependent device platform for Arma 3. Its first tactical application, ATLAS, provides BFT, messaging, ISR access, orders, reporting, callsigns and mission-defined TOC terminals. This project contains editable source, release artifacts and an interactive design preview.
+SynapseOS is a modular device platform for Arma 3. Its first tactical application, ATLAS, provides BFT, messaging, ISR access, orders, reporting, callsigns and mission-defined TOC terminals. This project contains editable source, release artifacts and an interactive design preview.
 
 The project folder is `SynapseOS`. ATLAS remains the battlefield-management app; existing `SICS_fnc_*` / `ATLAS_fnc_*` APIs, addon paths and inventory class IDs retain compatibility. Previously frozen beta archives keep their original names and binary checksums. See [project naming](docs/PROJECT-NAMING.md).
 
