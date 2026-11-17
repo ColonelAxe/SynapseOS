@@ -1,0 +1,15 @@
+version=12;
+class Mission {
+    addOns[]={"A3_Characters_F","sics_core"};
+    addOnsAuto[]={"A3_Characters_F","sics_core"};
+    randomSeed=11001;
+    class Intel {briefingName="ATLAS Closed Beta / VR";overviewText="Five slots for friendly chat, channel permissions, side isolation, UAV control and report photographs.";year=2035;month=6;day=15;hour=12;minute=0;startWeather=0;forecastWeather=0;};
+    class Groups {
+        items=5;
+        class Item0 {side="WEST";class Vehicles {items=1;class Item0 {position[]={1500,0,1500};azimut=0;id=0;side="WEST";vehicle="B_Soldier_TL_F";player="PLAYER COMMANDER";leader=1;skill=0.6;text="ATLAS_Beta_Alpha";description="BLUFOR / ALPHA commander";};};};
+        class Item1 {side="WEST";class Vehicles {items=1;class Item0 {position[]={1505,0,1500};azimut=0;id=1;side="WEST";vehicle="B_Soldier_TL_F";player="PLAY CDG";leader=1;skill=0.6;text="ATLAS_Beta_Bravo";description="BLUFOR / BRAVO operator";};};};
+        class Item2 {side="EAST";class Vehicles {items=1;class Item0 {position[]={3500,0,3500};azimut=0;id=2;side="EAST";vehicle="O_Soldier_TL_F";player="PLAY CDG";leader=1;skill=0.6;text="ATLAS_Beta_Opfor";description="OPFOR / isolation observer";};};};
+        class Item3 {side="GUER";class Vehicles {items=1;class Item0 {position[]={5500,0,5500};azimut=0;id=3;side="GUER";vehicle="I_Soldier_TL_F";player="PLAY CDG";leader=1;skill=0.6;text="ATLAS_Beta_Independent";description="INDEPENDENT / isolation observer";};};};
+        class Item4 {side="CIV";class Vehicles {items=1;class Item0 {position[]={7500,0,7500};azimut=0;id=4;side="CIV";vehicle="C_man_1";player="PLAY CDG";leader=1;skill=0.6;text="ATLAS_Beta_Civilian";description="CIVILIAN / isolation observer";};};};
+    };
+};

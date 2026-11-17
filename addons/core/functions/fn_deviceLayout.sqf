@@ -1,0 +1,32 @@
+disableSerialization;
+params [["_requested",""]];
+private _available=[player,SICS_terminal] call SICS_fnc_devices;
+if (_available isEqualTo []) exitWith {closeDialog 0};
+if (_requested=="" && {"WORKSTATION" in _available}) then {_requested="WORKSTATION"};
+if (_requested=="" && {!([player] call SICS_fnc_vehicleAccess)}) then {_requested=missionNamespace getVariable ["SICS_preferredDevice",""]};
+if !(_requested in _available) then {_requested=_available select 0};
+if (_requested in ["PHONE","TABLET","PORTABLE"]) then {SICS_preferredDevice=_requested};
+SICS_deviceMode=_requested;SICS_deviceVehicle=if (_requested in ["VEHICLE","AVIATION"]) then {vehicle player} else {objNull};
+SICS_mobilePane="MAP";SICS_mobileTab="";
+private _handheld=_requested in ["PHONE","PORTABLE"];
+private _aspect=switch (_requested) do {case "PHONE":{2.0};case "PORTABLE":{1.85};case "VEHICLE":{1.78};case "AVIATION":{1.78};case "WORKSTATION":{1.78};default {1.6}};
+private _vw=safeZoneW*([0.95,0.92] select _handheld);private _vh=(_vw/pixelW)/_aspect*pixelH;
+if (_vh>safeZoneH*0.95) then {_vh=safeZoneH*0.95;_vw=(_vh/pixelH)*_aspect*pixelW};
+SICS_shellViewport=[safeZoneX+(safeZoneW-_vw)/2,safeZoneY+(safeZoneH-_vh)/2,_vw,_vh];
+SICS_shellViewport params ["_sx","_sy","_sw","_sh"];
+SICS_viewport=if (_handheld) then {[_sx+0.063*_sw,_sy+0.075*_sh,0.874*_sw,0.84*_sh]} else {[_sx+0.06*_sw,_sy+0.085*_sh,0.88*_sw,0.81*_sh]};
+// Complex report and channel forms use an expanded workspace on handhelds.
+private _fw=safeZoneW*0.95;private _fh=(_fw/pixelW)/1.6*pixelH;
+if (_fh>safeZoneH*0.95) then {_fh=safeZoneH*0.95;_fw=(_fh/pixelH)*1.6*pixelW};
+SICS_formViewport=[safeZoneX+(safeZoneW-_fw)/2,safeZoneY+(safeZoneH-_fh)/2,_fw,_fh];
+private _d=findDisplay 87000;
+(_d displayCtrl 90) ctrlSetPosition SICS_shellViewport;(_d displayCtrl 90) ctrlCommit 0;
+(_d displayCtrl 91) ctrlSetPosition SICS_viewport;(_d displayCtrl 91) ctrlCommit 0;
+{if (ctrlType _x in [0,1,2,4,5,16]) then {_x ctrlSetFontHeight ((((SICS_viewport select 3)*0.025) max (pixelH*([20,15] select _handheld))) min (pixelH*26))}} forEach allControls _d;
+private _skin=switch (_requested) do {case "PHONE":{"phone"};case "PORTABLE":{"portable"};case "VEHICLE":{"vehicle"};case "AVIATION":{"vehicle"};default {"tablet"}};
+(_d displayCtrl 90) ctrlSetText format ["\x\sics\addons\core\ui\%1_frame_ca.paa",_skin];
+(_d displayCtrl 5) ctrlSetText _requested;
+(_d displayCtrl 5) ctrlSetTooltip format ["Device: %1. Click to switch between carried devices and authorised vehicle terminals.",_requested];
+private _app=missionNamespace getVariable ["SICS_osApp","ATLAS"];
+if (_app=="HOME") then {[] call SICS_fnc_osHome} else {if (_app=="ATLAS") then {[] call SICS_fnc_page} else {[_app] call SICS_fnc_launchApp}};
+

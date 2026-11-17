@@ -1,0 +1,15 @@
+.hemttout/
+vendor/
+*.log
+*.biprivatekey
+.hemttprivatekey
+.edge-preview/
+test-profile/
+tools/.cache/
+native/build/
+.keys/
+dist/
+tests/*profile*/
+tests/*-profile/
+tests/server.cfg
+tests/server-cb1-validation.cfg

@@ -1,0 +1,27 @@
+version=12;
+class Mission {
+    addOns[]={"A3_Characters_F_BLUFOR","A3_Map_Stratis"};
+    addOnsAuto[]={"A3_Characters_F_BLUFOR","A3_Map_Stratis"};
+    randomSeed=123456;
+    class Intel {briefingName="SICS Local Smoke Test"; startWeather=0; forecastWeather=0; year=2035; month=6; day=15; hour=12; minute=0;};
+    class Groups {
+        items=1;
+        class Item0 {
+            side="WEST";
+            class Vehicles {
+                items=1;
+                class Item0 {
+                    position[]={1870,5,5500};
+                    azimut=0;
+                    id=0;
+                    side="WEST";
+                    vehicle="B_Soldier_SL_F";
+                    player="PLAYER COMMANDER";
+                    leader=1;
+                    rank="CAPTAIN";
+                    skill=0.6;
+                };
+            };
+        };
+    };
+};

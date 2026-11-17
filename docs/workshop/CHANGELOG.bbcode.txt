@@ -1,0 +1,5 @@
+[h2]Initial private staging upload[/h2]
+SynapseOS modular tactical platform featuring ATLAS.
+This private upload is a distribution staging build, not a public release.
+Current staged package retains its cTab and CBA dependencies.
+The cTab-free migration and separate-client multiplayer acceptance are pending.

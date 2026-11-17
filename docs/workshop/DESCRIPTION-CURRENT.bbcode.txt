@@ -1,0 +1,50 @@
+[h1]SynapseOS[/h1]
+[b]One platform. A shared operational picture.[/b]
+
+SynapseOS brings a modular tactical workspace to Arma 3. Open your device, launch an app and keep the information your team needs close at hand.
+
+Its first tactical application, [b]ATLAS[/b], brings maps, Blue Force Tracking, communications, contact reporting and ISR into a unified interface for dismounted troops, vehicle crews and command elements.
+
+[h2]ATLAS — battlefield management[/h2]
+[list]
+[*][b]Tactical awareness:[/b] track equipped friendly elements, inspect unit information and return the map to a selected element.
+[*][b]Map tools:[/b] place markers, draw tactical graphics and coordinate routes and objectives.
+[*][b]Contact reports:[/b] mark a location, identify its designation and type, choose an affiliation and report contact strength.
+[*][b]Team communications:[/b] create purpose-built chat channels, manage access and receive notifications for incoming information.
+[*][b]Command workflows:[/b] coordinate plans, orders and support requests with shared status information.
+[*][b]ISR:[/b] access supported UAV and helmet-camera feeds. Pilot or operate a compatible drone through Arma's native UAV controls when equipment and permissions allow.
+[/list]
+
+[h2]A device for the role[/h2]
+Choose a tablet or phone, use a compact moving-map view, and expand the interface when you need the full workspace. Vehicle and aircraft displays extend situational awareness to mounted crews.
+
+[h2]More than a single app[/h2]
+[list]
+[*][b]SynapseOS desktop:[/b] a common launcher with a consistent visual identity.
+[*][b]Operations:[/b] planning, shared graphics, orders, support coordination and a mission journal.
+[*][b]Settings:[/b] callsign, role, rank and interface preferences.
+[*][b]Camera:[/b] capture images and attach them to reports on supported Windows x64 clients.
+[*][b]Mission tools:[/b] configure operational policy and shared TOC displays.
+[/list]
+
+[h2]Closed beta[/h2]
+This is a development build. Multiplayer synchronization, reconnects, permissions, display scaling and modpack compatibility are the focus of testing. Features and layouts may change.
+
+Camera uses a bundled native Windows x64 extension; availability depends on the normal game and server extension policy. Records are mission-session data. Support requests coordinate players and do not automatically dispatch AI assets.
+
+[h2]Requirements — current staged build[/h2]
+[b]Arma 3, CBA_A3 and original cTab.[/b]
+The current build still requires cTab. Removing that dependency is planned; the intended dependency baseline is Arma 3 + CBA_A3. This page will be updated after a cTab-free build has been validated.
+ACE integration is optional. TFAR/ACRE compatibility is subject to testing with the selected preset.
+
+[h2]Getting started[/h2]
+Load the required mods, equip an ATLAS Tablet or ATLAS Phone, and use the configured interface key or supported ACE interaction. Open ATLAS from the SynapseOS desktop. Check the supplied beta guide for mission setup and device controls.
+
+[h2]Feedback that helps[/h2]
+Include the build version, loaded mods, device, resolution/UI scale, reproduction steps and expected versus actual behaviour. Attach a screenshot and the relevant RPT excerpt when possible. Report access-control or information-disclosure defects privately to the test organiser.
+
+[h2]Credits and source[/h2]
+Developed by [b]Axion Interactive[/b].
+The current implementation uses cTab; credit to Riouken, Gundy, Raspu and the cTab contributors. cTab is not bundled. SynapseOS source is distributed under GPL-2.0 with the beta source package.
+
+Gallery images marked “preview” show the offline interface with fictional data. Promotional artwork is illustrative, not an in-game screenshot.

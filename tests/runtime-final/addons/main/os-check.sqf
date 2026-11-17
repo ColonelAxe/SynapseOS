@@ -1,0 +1,18 @@
+disableSerialization;
+sleep 1;
+SICS_savedAtlas=createHashMap;
+SICS_tab="MESSAGES";[] call SICS_fnc_page;sleep 0.2;
+(findDisplay 87000 displayCtrl 106) ctrlSetText "CHECK DRAFT";
+[getPosATL player] call SICS_fnc_contactEditor;
+(findDisplay 87001 displayCtrl 415) ctrlSetText "CHECK CONTACT";
+["MINIMIZE"] call SICS_fnc_toggleDevice;sleep 0.4;
+[] call SICS_fnc_toggleDevice;sleep 0.4;
+[] call SICS_fnc_closeContact;sleep 0.2;
+[] call SICS_fnc_osHome;sleep 0.2;
+private _ok=["TOOLS_TEST","Tools test","\x\sics\addons\core\ui\atlas_logo_ca.paa",{params ["_d"];SYNAPSE_testLaunched=true;private _c=_d ctrlCreate ["SICS_Text",1999];_c ctrlSetText "Independent tool app";_c ctrlSetPosition ([0.1,0.35,0.8,0.2] call SICS_fnc_rect);_c ctrlCommit 0}] call Synapse_fnc_registerApp;
+[] call SICS_fnc_osHome;sleep 0.2;
+["TOOLS_TEST"] call Synapse_fnc_launchApp;sleep 0.2;
+diag_log format ["ATLAS_OS_CHECK register=%1 apps=%2 launch=%3 current=%4 control=%5 saved=%6",_ok,keys SYNAPSE_apps,missionNamespace getVariable ["SYNAPSE_testLaunched",false],SICS_osApp,!isNull(findDisplay 87000 displayCtrl 1999),SICS_savedAtlas getOrDefault ["composer",[]]];
+[] call Synapse_fnc_home;sleep 0.2;
+["ATLAS"] call SICS_fnc_launchApp;sleep 0.2;
+diag_log format ["ATLAS_OS_CHECK return=%1 draft=%2 saved=%3 identity=%4",SICS_osApp,ctrlText(findDisplay 87000 displayCtrl 106),SICS_savedAtlas getOrDefault ["composer",[]],SICS_savedAtlas getOrDefault ["identity",[]]];

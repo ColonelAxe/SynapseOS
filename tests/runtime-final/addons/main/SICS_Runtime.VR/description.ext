@@ -1,0 +1,5 @@
+author="SICS";
+onLoadName="SICS Local Smoke Test";
+enableDebugConsole=1;
+respawn=0;
+disabledAI=0;

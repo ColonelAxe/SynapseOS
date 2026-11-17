@@ -1,0 +1,9 @@
+// Merge into your normal dedicated-server configuration; supply your own password.
+hostname="ATLAS Closed Beta CB1";
+password="CHANGE-BEFORE-HOSTING";
+maxPlayers=8;
+persistent=1;
+verifySignatures=2;
+autoSelectMission=true;
+timeStampFormat="full";
+class Missions {class CB1 {template="ATLAS_ClosedBeta.VR";difficulty="Regular";};};

@@ -1,0 +1,12 @@
+name = "SynapseOS Modular Tactical Platform"
+prefix = "sics"
+mainprefix = "x"
+author = "ATLAS Team"
+[version]
+major = 0
+minor = 12
+patch = 0
+git_hash = 0
+[files]
+include = ["mod.cpp", "README.md", "LICENSE", "docs/**"]
+

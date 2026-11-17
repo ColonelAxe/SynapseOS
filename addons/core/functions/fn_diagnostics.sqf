@@ -1,0 +1,5 @@
+private _version=getText(configFile >> "CfgPatches" >> "sics_core" >> "versionStr");
+private _lines=["ATLAS BETA DIAGNOSTICS",format ["Build: %1",_version],format ["Arma: %1",productVersion],format ["MP: %1 / server: %2 / dedicated: %3",isMultiplayer,isServer,isDedicated],format ["Device: %1 / app: %2",missionNamespace getVariable ["SICS_deviceMode","CLOSED"],missionNamespace getVariable ["SICS_osApp","HOME"]],format ["Records: %1 / channels: %2 / notices: %3",count (missionNamespace getVariable ["SICS_localRecords",[]]),count (missionNamespace getVariable ["SICS_clientChannels",[]]),count (missionNamespace getVariable ["SICS_notificationHistory",[]])],format ["Resolution: %1",getResolution],format ["FPS: %1 / minimum: %2",round diag_fps,round diag_fpsMin],format ["CBA: %1 / cTab: %2 / ACE: %3",isClass(configFile >> "CfgPatches" >> "cba_main"),isClass(configFile >> "CfgPatches" >> "cTab"),isClass(configFile >> "CfgPatches" >> "ace_main")],format ["Media: %1","atlas_media" callExtension "version"]];
+private _text=_lines joinString toString [10];
+diag_log _text;
+_text
