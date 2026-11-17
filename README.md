@@ -30,16 +30,6 @@ Previously verified v0.1 native Arma overview after the blank-display fix:
 
 ![In-game overview](docs/sics-in-game.png)
 
-## Install
-
-1. Install and enable CBA_A3 and the original Riouken/Gundy cTab. ATLAS declares `cTab` as a required addon; it does not bundle cTab or replace its PBO.
-2. Extract `dist/ATLAS-0.12.0-beta.2.zip` and enable its `@ATLAS` folder on server and clients alongside those dependencies. A workspace installation is also available in `dist/@ATLAS-beta2`.
-3. Give a player **ATLAS Tablet** (`ATLAS_Tablet`) or **ATLAS Phone** (`ATLAS_Phone`) from the arsenal. Legacy `ItemcTab`, `ItemAndroid` and `ItemMicroDAGR` also work, as do TOC terminals.
-4. Press **U** for moving GPS, **Ctrl+U** for the full device, or **Alt+U** for carried equipment. Choose an app from the desktop or Start menu. Rebind under Configure → Controls → Configure Addons → SynapseOS.
-
-The core release is staged in `dist/@ATLAS-beta2`. The organiser kit is `dist/ATLAS-Closed-Beta-CB1.zip`, containing the same tested core, a separately versioned CB1 mission and testing materials. Enable one ATLAS version at a time and restart Arma when switching.
-
-With ACE loaded, use **Self Interaction → SynapseOS devices → Use ATLAS Phone / Use ATLAS Tablet**. Only carried devices are offered. The action opens that device and remembers your choice for later keybind openings on foot. Carry both to choose either; the device selector inside SynapseOS also switches them. Supported vehicle seats still default to their mounted console. ACE is optional; the keybind and device selector work without it. These items reuse the original cTab inventory models and icons, with ATLAS names and SynapseOS screens.
 
 ## SynapseOS device usage
 
@@ -65,25 +55,6 @@ ATLAS retains selected unit, map position/zoom, current application tab and chat
 
 SynapseOS is the device shell, with ATLAS, Settings and Camera applications. Desktop shortcuts, a Start menu and taskbar use the supplied custom wallpaper within the hardware's glass bounds. Every app, including registered future apps, receives the same cyan rounded icon frame; supply a transparent central glyph. Existing `SICS_fnc_*` API names and transport identifiers remain compatibility aliases. New mission code can use `ATLAS_fnc_*` and `ATLAS_commander`; legacy commander flags remain supported.
 
-### Adding future applications
-
-Run this locally for each player after addon initialization:
-
-```sqf
-if (hasInterface) then {
-    [
-        "FIELD_NOTES", "Field notes", "\x\sics\addons\core\ui\atlas_logo_ca.paa",
-        {
-            params ["_display", "_deviceMode"];
-            private _text = _display ctrlCreate ["RscText", 2001];
-            _text ctrlSetPosition ([0.10,0.35,0.80,0.20] call SICS_fnc_rect);
-            _text ctrlSetText "Your application goes here";
-            _text ctrlCommit 0;
-        },
-        {true}, // availability callback
-        {0}     // optional numeric badge callback
-    ] call Synapse_fnc_registerApp;
-};
 ```
 
 Apps receive the display and current device mode. Use control IDs ≥2000, keep Home/Minimize/Power controls intact, and retain app-specific data independently of its controls. The launcher paginates eight apps per page. Registration accepts trusted local SQF code, never network-supplied script strings. No placeholder extra tools are shipped. `[] call Synapse_fnc_open` opens the full device launcher/resumed app; `["ATLAS"] call Synapse_fnc_launchApp` launches ATLAS in an already open device.
@@ -181,10 +152,6 @@ HEMTT rapifies the config and compiles/checks SQF before writing the PBO. No Arm
 ## Verification still required in Arma
 
 Use `docs/IN-GAME-TESTS.md` before a public server release. Dedicated-server ownership validation, hosted sessions, side isolation, target filtering, JIP replay, respawn, terminal distance, varying UI scales, UAV camera availability and TFAR/ACRE2 combinations still need acceptance testing. The successful local smoke test does not establish multiplayer correctness.
-
-## Credits and sources
-
-ATLAS depends on [cTab by Riouken, Gundy and Raspu](https://github.com/Riouken/cTab). Its source was inspected at the commit recorded in `docs/UPSTREAM.md`; no cTab source or assets are packaged into ATLAS. The local `vendor/ctab` checkout is development reference only and is excluded from distribution. ATLAS is released under GPL-2.0; see LICENSE.
 
 API references: [Bohemia CfgFunctions](https://community.bohemia.net/wiki/CfgFunctions), [ACRE2 functions](https://acre2.idi-systems.com/wiki/frameworks/functions-list), [TFAR repository](https://github.com/michail-nikolaev/task-force-arma-3-radio).
 
