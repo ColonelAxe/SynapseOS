@@ -66,7 +66,7 @@ SICS_clientChannels=[];SICS_channelRoster=[];SICS_channelUnread=createHashMap;SI
     };
 },2] call CBA_fnc_addPerFrameHandler;
 [] spawn {
-    waitUntil {!isNull player && {!isNil "cTab_player"}};
+    waitUntil {!isNull player};
     {
         _x params ["_id","_title","_description","_default"];
         ["SynapseOS",_id,[_title,_description],compile format ['["%1"] call SICS_fnc_keyAction',_id],compile format ['["%1",true] call SICS_fnc_keyAction',_id],_default,false] call CBA_fnc_addKeybind;
