@@ -23,7 +23,7 @@ The existing UI checkup documents completed geometry/readability work for six la
    - Inventory/device classes and icons/models: use SynapseOS-owned assets or vanilla Arma parent classes.
    - Friendly BFT: own server-authoritative roster and equipment eligibility, position cadence, heading and stale/lost state.
    - Map markers and NATO symbology: own draw path and marker records.
-   - Vehicle access: mission-configurable seat/class policy without cTab globals.
+   - Vehicle access: mission-configurable seat/class policy without cTab globals. **First slice complete on `dev`:** front-seat eligibility now uses a SynapseOS-owned policy; default class lists and optional mission overrides are local.
    - Aircraft display and ISR: replace cTab TAD and render helpers with SynapseOS-owned interfaces.
    - Remove legacy cTab item aliases only after migration guidance and mission compatibility are ready.
    - Keep CBA keybinds; do not bundle cTab code or assets.

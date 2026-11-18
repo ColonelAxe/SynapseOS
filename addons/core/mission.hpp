@@ -23,7 +23,7 @@ class CfgVehicles {
             class assignedCommandOnly: tablet {property="ATLAS_assignedCommandOnly";displayName="Only assigned commanders may issue plans / orders";defaultValue="false";expression="_this setVariable ['assignedCommandOnly',_value,true]";};
             class journalLimit: Edit {property="ATLAS_journalLimit";displayName="Journal retention (100–2000)";typeName="NUMBER";defaultValue="500";expression="_this setVariable ['journalLimit',_value,true]";};
             class contactTTL: Edit {property="ATLAS_contactTTL";displayName="Default contact expiry (seconds)";typeName="NUMBER";defaultValue="1800";expression="_this setVariable ['contactTTL',_value,true]";};
-            class vehicleClasses: Edit {property="ATLAS_vehicleClasses";displayName="Allowed console classes (blank = cTab rules)";typeName="STRING";defaultValue="''";expression="_this setVariable ['vehicleClasses',_value,true]";};
+            class vehicleClasses: Edit {property="ATLAS_vehicleClasses";displayName="Allowed console classes (blank = SynapseOS defaults)";typeName="STRING";defaultValue="''";expression="_this setVariable ['vehicleClasses',_value,true]";};
         };
         class ModuleDescription {description="Server-authoritative ATLAS device, sensor, command and retention policy. Group-leader permissions remain enabled unless assigned-only is selected.";};
     };
