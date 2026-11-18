@@ -1,4 +1,4 @@
-// Read-only view of cTab-authorised friendly selections. No new network discovery.
+// Read-only view of SynapseOS server-authorised friendly selections.
 disableSerialization;
 private _d=findDisplay 87000;
 if (isNull _d) exitWith {};

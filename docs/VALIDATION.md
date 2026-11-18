@@ -1,5 +1,11 @@
 # Validation record
 
+## cTab-free source migration — 18 November 2026
+
+HEMTT built the current `dev` addon: 1 PBO, addon config rapified and 102 SQF files compiled. A byte-string scan of the built production PBO found no cTab names or item-class aliases. This establishes a clean source/PBO dependency surface, not a successful Arma runtime test. The no-cTab game launch did not start: the launcher remained on its existing 67-mod profile and direct execution exited before opening a game window. No launcher preset was changed. Continue with a clean Arma + CBA launch and functional smoke run before treating the build as beta-ready.
+
+Earlier sections below document legacy beta builds; they are not evidence for the current build.
+
 ## v0.11.0-beta.1 / closed-beta checkup — 15 November 2026
 
 The completed developmental beta run ended at 16:49:03 in `arma3_x64_2026-11-15_16-46-31.rpt`: 358 checks passed, none failed (199 core, 26 beta/lifecycle, 8 media, 4 drone, 121 UI/layout). No SQF expression or missing-texture errors were logged. It covered notification history, unread behavior on Home, opening updates, revoked/expired links, preference validation, capture cancellation, malformed photo length rejection and clearing session caches. After that run, the audit added a guard against re-saving a revoked draft on display unload, actual side-change tests and a second UI sweep at large text. Those strengthened native checks require a follow-up run; do not treat the developmental baseline as proof of them.

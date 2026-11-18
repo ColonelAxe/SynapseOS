@@ -29,7 +29,7 @@ private _audit={
     } forEach _controls;
     diag_log format ["ATLAS_UI_AUDIT %1/text-%5: %2 overlaps=%3 outside=%4",_name,["FAIL","PASS"] select (_overlaps isEqualTo [] && {_outside isEqualTo []}),_overlaps,_outside,_textScale];
 };
-player addItem "ATLAS_Tablet";player addItem "ATLAS_Phone";player addItem "ItemMicroDAGR";
+player addItem "ATLAS_Tablet";player addItem "ATLAS_Phone";player addItem "ATLAS_MicroDAGR";
 {
     private _mode=_x;
     ["CLOSE"] call SICS_fnc_toggleDevice;

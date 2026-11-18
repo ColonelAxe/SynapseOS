@@ -3,8 +3,8 @@ private _log={params ["_name","_ok"];diag_log format ["ATLAS_DRONE_TEST %1: %2",
 private _loadout=getUnitLoadout player;
 player linkItem "B_UavTerminal";
 private _uav=createVehicle ["B_UAV_02_dynamicLoadout_F",player getPos [80,0],[],0,"NONE"];
-createVehicleCrew _uav;_uav allowDamage false;[] call cTab_fnc_updateLists;
-["authorised_uav",_uav in cTabUAVlist] call _log;
+createVehicleCrew _uav;_uav allowDamage false;
+["authorised_uav",(_uav in (([] call SICS_fnc_isrSources) apply {_x select 0}))] call _log;
 if (isNull findDisplay 87000) then {[] call SICS_fnc_open};
 ["DRIVER",_uav] call SICS_fnc_droneControl;sleep 2;
 diag_log format ["ATLAS_DRONE_TEST driver control=%1",UAVControl _uav];

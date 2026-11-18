@@ -1,5 +1,7 @@
 # ATLAS Closed Beta 1 (CB1)
 
+> **Archived package instructions:** CB1 requires original cTab. It is not the current cTab-free `dev` build.
+
 Release candidate: **CB1**, 16 November 2026. Core mod: **0.12.0-beta.2**. Mission: **CB1 / eight slots**. This is a controlled community test, not a public stable release.
 
 ## Players
@@ -47,3 +49,6 @@ At the end, collect the session sheet, relevant client/server RPT excerpts and i
 Keep CB1 unchanged throughout a session. Fixes should ship as a new kit revision with new hashes and a short changelog; put additional feature ideas in the backlog until the first sessions finish. Retain the original kit and session logs for reproduction.
 
 The tested core passed 681 local native checks and 20 isolated dedicated-backend checks. The CB1 mission is prepared separately; real-client multiplayer, JIP and community-modpack acceptance are the purpose of this beta. See [validation](BETA2-VALIDATION.md) for the scope of the core checks.
+# Archived CB1 package instructions
+
+These instructions describe the frozen CB1 package, which requires CBA_A3 and original cTab. They do not apply to the current cTab-free `dev` source.

@@ -44,6 +44,6 @@ Place the **ATLAS mission settings** Eden module to permit devices, vehicle cons
 
 ## Feed status and beta limits
 
-ATLAS supplements cTab's authorised BFT list with same-side server observation timestamps. Live is up to 15 seconds old; stale is 15–45 seconds; lost feed is over 45 seconds. Stale tracks retain their sampled position instead of presenting continuing engine movement as fresh information. Lost tracks stop drawing after 120 seconds. A cTab-authorised track without a timestamp is explicitly unverified. This status describes data freshness, not simulated TFAR/ACRE RF propagation. Original cTab TAD tracking remains supplied by cTab.
+SynapseOS supplies its own same-side server snapshots and freshness timestamps for equipped dismounted units and crewed vehicles. Live is up to 15 seconds old; stale is 15–45 seconds; lost feed is over 45 seconds. Stale tracks retain their sampled position instead of presenting continuing engine movement as fresh information. Lost tracks stop drawing after 120 seconds. This status describes data freshness, not simulated TFAR/ACRE RF propagation. The aviation display uses the same SynapseOS track feed.
 
 Operations are server-authoritative, side/audience filtered, revision checked and rate limited. Up to 512 active entities, 64 points per graphic, 100–2000 journal events, and 20 local presets. Entities survive reconnect/JIP within the running mission, not server restarts. Camera transfer and every multiplayer/JIP permission scenario still require testing with real separate clients before public release.

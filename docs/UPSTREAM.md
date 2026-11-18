@@ -1,24 +1,7 @@
-# Upstream integration
+# Development references
 
-- Repository: https://github.com/Riouken/cTab
-- Inspected revision: `d0e532812743157506a38125daecb282d5629249`
-- Upstream config version: 2.2.2.5
-- License: GPL-2.0 (upstream LICENSE, reproduced at repository root)
-- Credits: Riouken, Gundy, Raspu and cTab contributors.
+SynapseOS was designed as an independent Arma 3 addon. cTab was consulted as a workflow and usability reference only. No cTab SQF, config classes, models, textures, PBOs, APIs or runtime state are part of the current production addon.
 
-No upstream SQF, model, texture, sound or PBO is included in the SICS packages. The development reference checkout under `vendor/ctab` is excluded. Install cTab separately.
+The historical source review was based on the [Riouken/cTab repository](https://github.com/Riouken/cTab). Any local checkout under `vendor/` is developer reference material, ignored by Git, excluded from HEMTT builds and not needed to compile or run SynapseOS.
 
-## Runtime dependencies used
-
-| cTab API / data | SICS use |
-| --- | --- |
-| `cTab_fnc_checkGear` | Device eligibility |
-| `cTab_fnc_drawBftMarkers` | Existing NATO BFT rendering |
-| `cTab_fnc_drawUserMarkers` | Existing shared cTab map annotations |
-| `cTabBFTgroups`, `cTabBFTvehicles`, `cTabBFTmembers` | Force roster |
-| `cTab_fnc_createUavCam`, `cTab_fnc_deleteUAVcam` | Embedded ISR camera and cleanup |
-| `cTab_fnc_close` | Close original cTab display before opening SICS |
-
-Different cTab forks can change internal arrays and camera helpers. The inspected original revision is the baseline; other forks need a compatibility test before being advertised as supported.
-
-ACRE public API checked against https://acre2.idi-systems.com/wiki/frameworks/functions-list: `[] call acre_api_fnc_getCurrentRadioList` returns the local player's radio IDs. TFAR adapters use `TFAR_fnc_haveSWRadio` and `TFAR_fnc_haveLRRadio` when defined.
+Current runtime dependencies are Arma 3 and CBA_A3. ACE, TFAR and ACRE integrations are optional. See `docs/PRODUCT-WORKUP.md` for the standalone build and acceptance status.

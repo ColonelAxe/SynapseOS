@@ -1,10 +1,5 @@
 params ["_action"];
 if (!hasInterface || {missionNamespace getVariable ["SICS_transitionActive",false]}) exitWith {false};
-if (_action in ["MAIN","SECONDARY"] && {[player] call SICS_fnc_vehicleAccess} && {vehicle player isKindOf "Air"}) exitWith {[_action] call SICS_fnc_aviationTAD};
-if (!isNil "cTabIfOpen") exitWith {
-    [] call cTab_fnc_close;
-    [_action] spawn {params ["_action"];waitUntil {sleep 0.01;isNil "cTabIfOpen"};[_action] call SICS_fnc_interfaceAction};true
-};
 private _full=!isNull findDisplay 87000;
 if (_action=="MAIN") exitWith {
     if (_full) then {["MINIMIZE"] call SICS_fnc_toggleDevice} else {

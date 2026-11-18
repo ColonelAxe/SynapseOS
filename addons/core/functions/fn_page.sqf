@@ -55,8 +55,7 @@ if (SICS_tab=="ISR") then {
         if (_i<0) exitWith {};
         [objectFromNetId (_list lbData _i),["UAV","HELMET"] select (_list lbValue _i)] call SICS_fnc_isrSelect;
     }];
-    {private _i=_list lbAdd ("UAV / "+getText(configOf _x >> "displayName"));_list lbSetData [_i,netId _x];_list lbSetValue [_i,0]} forEach (missionNamespace getVariable ["cTabUAVlist",[]]);
-    {private _i=_list lbAdd ("HELMET / "+(([_x] call SICS_fnc_profile) select 0));_list lbSetData [_i,netId _x];_list lbSetValue [_i,1]} forEach (missionNamespace getVariable ["cTabHcamlist",[]]);
+    {private _i=_list lbAdd (_x select 2);_list lbSetData [_i,netId (_x select 0)];_list lbSetValue [_i,if ((_x select 1)=="HELMET") then {1} else {0}] } forEach ([] call SICS_fnc_isrSources);
     private _link = ["SICS_Button",111,[0.595,0.61,0.14,0.05],"LINK UAV TERMINAL"] call SICS_fnc_control;
     _link ctrlAddEventHandler ["ButtonClick",{
         ["TERMINAL"] call SICS_fnc_droneControl;

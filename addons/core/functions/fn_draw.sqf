@@ -3,7 +3,6 @@ if ((missionNamespace getVariable ["SICS_mapTool",""])=="INSPECT" && {!isNull SI
     _map drawIcon ["\A3\ui_f\data\map\markers\military\circle_CA.paa",[0.3,0.95,0.85,1],getPosASLVisual vehicle SICS_selectedUnit,38,38,0,"INSPECTING",1,0.025,"RobotoCondensed"];
 };
 [_map] call SICS_fnc_bftDraw;
-[_map,false] call cTab_fnc_drawUserMarkers;
 [] call SICS_fnc_tracks;
 {
     _x params ["_v","_trail","_kind","_callsign"];

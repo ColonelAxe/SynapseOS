@@ -1,17 +1,17 @@
 // Test-only addon. Never included in the production mod.
 if (!hasInterface || {is3DEN}) exitWith {};
 [] spawn {
-    waitUntil {!isNull player && {!isNil "cTab_player"}};
+    waitUntil {!isNull player};
     sleep 3;
     player allowDamage false;
-    player addItemToVest "ItemcTab";
-    if !([player,["ItemcTab"]] call cTab_fnc_checkGear) then {player linkItem "ItemcTab"};
+    player addItemToVest "ATLAS_Tablet";
+    player linkItem "ATLAS_Tablet";
     player setVariable ["SICS_commander",true,true];
     group player setGroupIdGlobal ["ATLAS 6"];
     {
         private _g=createGroup west;
         private _u=_g createUnit ["B_Soldier_TL_F",player getPos [50+_forEachIndex*50,45+_forEachIndex*40],[],0,"NONE"];
-        _u linkItem "ItemcTab";
+        _u linkItem "ATLAS_Tablet";
         _g setGroupIdGlobal [_x];
     } forEach ["ALPHA 1-1","BRAVO 1-2"];
     private _p=getPosATL player;
@@ -25,7 +25,6 @@ if (!hasInterface || {is3DEN}) exitWith {};
     createVehicleCrew _plane;_plane allowDamage false;_plane flyInHeight 600;
     _plane setDir 90;_plane setVelocity [120,0,0];driver _plane doMove (player getPos [5000,90]);
     SICS_testVehicles=[_car,_heli,_plane];
-    call cTab_fnc_updateLists;
     diag_log format ["SICS_TEST READY: playerOwner=%1, alive=%2, access=%3",owner player,alive player,[player] call SICS_fnc_access];
     [objNull,"TABLET"] call SICS_fnc_open;
     sleep 3;

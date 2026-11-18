@@ -3,7 +3,6 @@ params [["_terminal",objNull],["_device",""],["_startApp","ATLAS"]];
 if (!hasInterface || {!isNull findDisplay 87000}) exitWith {};
 if (!([player,_terminal] call SICS_fnc_access)) exitWith {hint "ATLAS requires a carried SynapseOS device, enabled vehicle seat or authorised TOC terminal."};
 if (missionNamespace getVariable ["SICS_markerSide",sideUnknown]!=sideUnknown && {SICS_markerSide!=side group player}) then {[] call SICS_fnc_resetClient;SICS_markerSide=side group player};
-if (!isNil "cTabIfOpen" && {!isNil "cTab_fnc_close"}) then {[] call cTab_fnc_close};
 if (missionNamespace getVariable ["SICS_quickActive",false]) then {[] call SICS_fnc_quickView};
 SICS_osApp="ATLAS";SICS_deviceState="FULL";
 ATLAS_interfaceRole="SECONDARY";

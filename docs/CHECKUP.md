@@ -20,6 +20,6 @@ The native automated harness exercises local game behavior with AI and explicit 
 
 The Camera DLL remains an unsigned development extension; a signed PBO does not grant BattlEye approval to the DLL. Core testing can continue if normal policy blocks Camera. No firewall or BattlEye settings are changed by the addon.
 
-BFT uses cTab-authorised game objects. Supplemental sampled vehicle positions are not an end-to-end radio delivery receipt; no misleading network freshness timestamp has been added. Vehicle trails and extra labels can be disabled locally for busy maps. Measured high-load multiplayer performance remains a beta acceptance item.
+The beta validation described in this archived checkup used cTab-authorised game objects. The current `dev` implementation has replaced that BFT feed with SynapseOS snapshots; the new source has compiled, but standalone runtime authorization and load performance still require acceptance. Vehicle trails and extra labels can be disabled locally for busy maps.
 
 The current release is a closed-beta candidate, not a claim of complete multiplayer certification. VALIDATION.md records completed runs and any remaining checks.

@@ -27,7 +27,7 @@ SICS_quickHandle=[{
     };
     if !(_map getVariable ["SICS_drawInstalled",false]) then {
         _map setVariable ["SICS_drawInstalled",true];
-        _map ctrlAddEventHandler ["Draw",{[_this select 0] call SICS_fnc_bftDraw;[_this select 0,false] call cTab_fnc_drawUserMarkers;[_this select 0] call SICS_fnc_operationsDraw}];
+        _map ctrlAddEventHandler ["Draw",{[_this select 0] call SICS_fnc_bftDraw;[_this select 0] call SICS_fnc_operationsDraw}];
     };
     ctrlMapAnimClear _map;_map ctrlMapAnimAdd [0,missionNamespace getVariable ["ATLAS_quickScale",0.045],getPosASLVisual vehicle player];ctrlMapAnimCommit _map;
     (_d displayCtrl 2) ctrlSetText format ["GRID %1 | %2° | %3 km/h",mapGridPosition vehicle player,round getDir vehicle player,round abs speed vehicle player];

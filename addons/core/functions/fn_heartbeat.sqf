@@ -10,7 +10,7 @@ if (!isServer || {!( ["tracking",true] call SICS_fnc_policy )}) exitWith {};
         _objects append (allUnits select {
             private _unit=_x;
             alive _unit && {side group _unit==_side} && {
-                ((items _unit + assignedItems _unit) findIf {_x in ["ATLAS_Tablet","ATLAS_Phone","ItemcTab","ItemAndroid"]})>=0
+                ((items _unit + assignedItems _unit) findIf {_x in ["ATLAS_Tablet","ATLAS_Phone","ATLAS_MicroDAGR"]})>=0
             }
         });
         private _samples=(_objects select [0,512]) apply {[netId _x,getPosASL _x,getDir _x,speed _x,serverTime]};

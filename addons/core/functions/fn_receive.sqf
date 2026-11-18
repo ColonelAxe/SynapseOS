@@ -1,8 +1,20 @@
 if (!hasInterface || {isMultiplayer && {remoteExecutedOwner != 2}}) exitWith {};
 params ["_kind","_data"];
 if (_kind=="TRACK_SNAPSHOT") exitWith {
-    private _allowed=((missionNamespace getVariable ["cTabBFTgroups",[]])+(missionNamespace getVariable ["cTabBFTvehicles",[]])+(missionNamespace getVariable ["cTabBFTmembers",[]])) apply {netId (_x select 0)};
-    {if ((_x select 0) in _allowed) then {ATLAS_networkTracks set [_x select 0,_x]}} forEach _data;
+    if (isNil "ATLAS_networkTracks") then {ATLAS_networkTracks=createHashMap};
+    private _allowed=[];
+    {
+        if (_x isEqualType [] && {count _x==5} && {(_x select 0) isEqualType ""}) then {
+            private _object=objectFromNetId (_x select 0);
+            if (!isNull _object && {alive _object}) then {
+                private _commander=if (_object isKindOf "Man") then {_object} else {effectiveCommander _object};
+                if (!isNull _commander && {side group _commander==side group player}) then {
+                    _allowed pushBack (_x select 0);
+                    ATLAS_networkTracks set [_x select 0,_x];
+                };
+            };
+        };
+    } forEach _data;
     {if !(_x in _allowed) then {ATLAS_networkTracks deleteAt _x}} forEach keys ATLAS_networkTracks;
 };
 if (_kind=="OPERATIONS") exitWith {

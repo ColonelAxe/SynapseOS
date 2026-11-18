@@ -5,15 +5,10 @@ class CfgPatches {
         units[] = {"ATLAS_ModuleSettings"};
         weapons[] = {"ATLAS_Tablet","ATLAS_Phone"};
         requiredVersion = 2.18;
-        requiredAddons[] = {"cTab", "cba_keybinding", "A3_UI_F", "A3_Modules_F"};
+        requiredAddons[] = {"cba_keybinding", "A3_UI_F", "A3_Modules_F", "A3_Weapons_F"};
     };
 };
 class CfgFunctions {
-    class cTab {
-        class Functions {
-            class checkGear {file="\x\sics\addons\core\functions\fn_ctabCheckGear.sqf";};
-        };
-    };
     class SICS {
         class Core {
             file = "\x\sics\addons\core\functions";
@@ -44,6 +39,8 @@ class CfgFunctions {
             class contactApply {};
             class notify {};
             class tracks {};
+            class trackEntries {};
+            class isrSources {};
             class centre {};
             class inspect {};
             class channelIdentity {};
@@ -121,20 +118,37 @@ class CfgFunctions {
     };
 };
 class CfgWeapons {
-    class ItemcTab;
-    class ItemAndroid;
-    class ATLAS_Tablet: ItemcTab {
+    class ItemGPS;
+    class ATLAS_Tablet: ItemGPS {
         scope=2;scopeArsenal=2;
         displayName="ATLAS Tablet";
+        picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
         descriptionShort="Rugged SynapseOS tablet with the ATLAS tactical application.";
         descriptionUse="Open SynapseOS using the device key or ACE self-interaction.";
         author="ATLAS Team";
     };
-    class ATLAS_Phone: ItemAndroid {
+    class ATLAS_Phone: ItemGPS {
         scope=2;scopeArsenal=2;
         displayName="ATLAS Phone";
+        picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
         descriptionShort="Landscape SynapseOS field handset with the ATLAS tactical application.";
         descriptionUse="Open SynapseOS using the device key or ACE self-interaction.";
+        author="ATLAS Team";
+    };
+    class ATLAS_HelmetCam: ItemGPS {
+        scope=2;scopeArsenal=2;
+        displayName="ATLAS Helmet Camera";
+        picture="\x\sics\addons\core\ui\camera_glyph_ca.paa";
+        descriptionShort="SynapseOS wearable camera for authorised live ISR feeds.";
+        descriptionUse="Provides a camera feed to authorised ATLAS users.";
+        author="ATLAS Team";
+    };
+    class ATLAS_MicroDAGR: ItemGPS {
+        scope=2;scopeArsenal=2;
+        displayName="ATLAS MicroDAGR";
+        picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
+        descriptionShort="Compact SynapseOS moving-map and friendly tracking device.";
+        descriptionUse="Open the compact ATLAS GPS view.";
         author="ATLAS Team";
     };
 };

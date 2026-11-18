@@ -6,8 +6,8 @@ private _equip={
     if !("ATLAS_Tablet" in items _unit) then {_unit addItemToBackpack "ATLAS_Tablet"};
     if !("ATLAS_Phone" in items _unit) then {_unit addItemToBackpack "ATLAS_Phone"};
     _unit linkItem "ItemMap";_unit linkItem "ItemCompass";
-    if !("ItemMicroDAGR" in items _unit) then {_unit addItemToBackpack "ItemMicroDAGR"};
-    if (side group _unit==west) then {_unit linkItem "B_UavTerminal";if !("ItemcTabHCam" in items _unit) then {_unit addItemToBackpack "ItemcTabHCam"}};
+    if !("ATLAS_MicroDAGR" in items _unit) then {_unit addItemToBackpack "ATLAS_MicroDAGR"};
+    if (side group _unit==west) then {_unit linkItem "B_UavTerminal";if !("ATLAS_HelmetCam" in items _unit) then {_unit addItemToBackpack "ATLAS_HelmetCam"}};
 };
 [player] call _equip;
 missionNamespace setVariable ["ATLAS_betaEquip",_equip];

@@ -9,7 +9,7 @@ This is a release worklist based on the current source, beta checkup and accepta
 
 SynapseOS has a unified device shell, ATLAS, Operations, Settings, Camera and Notifications; tablet/phone/compact/vehicle layouts; tactical map tools, reports, channels, orders, support coordination and mission TOC support. The local validation record documents 681 client checks and 20 isolated backend checks for the prior beta build.
 
-The product requirement is **CBA may remain; cTab must not be required**. The current implementation still relies on cTab for device base classes/assets, authorised BFT rosters, marker drawing, aircraft TAD, vehicle-seat policy and ISR camera helpers. Removing only `requiredAddons[]` would break those features. This is the largest implementation gap.
+The product requirement is **CBA may remain; cTab must not be required**. The production addon source on `dev` now removes cTab classes, assets, functions, globals and config dependencies. SynapseOS owns its device classes (currently based on vanilla Arma `ItemGPS`), BFT track snapshot handling and UI roster, marker rendering, vehicle/seat policy, aviation routing and ISR camera lifecycle. HEMTT has compiled the addon config and 102 SQF files. A clean Arma launch and functional acceptance with cTab absent are still outstanding, so this is source-level independence, not yet a validated standalone release.
 
 The prior multiplayer acceptance sheet is still marked NOT RUN. Local checks and a dedicated-server initialization do not establish separate-client delivery, JIP, permissions, contention, respawn or side isolation.
 
@@ -20,15 +20,15 @@ The existing UI checkup documents completed geometry/readability work for six la
 ### P0 — independent runtime, before calling it standalone
 
 1. **Replace the cTab runtime surface in layers.**
-   - Inventory/device classes and icons/models: use SynapseOS-owned assets or vanilla Arma parent classes.
-   - Friendly BFT: own server-authoritative roster and equipment eligibility, position cadence, heading and stale/lost state.
-   - Map markers and NATO symbology: own draw path and marker records.
-   - Vehicle access and core device eligibility: mission-configurable seat/class policy without cTab helpers. **Initial slices complete on `dev`:** front-seat eligibility uses SynapseOS-owned rules; access and tracking equipment checks use Arma inventory lists; keybind setup waits for the player, not cTab's player-init variable. The cTab gear-check bridge remains until BFT and display integrations are migrated.
-   - Aircraft display and ISR: replace cTab TAD and render helpers with SynapseOS-owned interfaces.
-   - Remove legacy cTab item aliases only after migration guidance and mission compatibility are ready.
+   - Device classes use vanilla Arma `ItemGPS` as the parent to avoid inherited third-party models. Brand-owned 3D device models can follow later.
+   - Friendly BFT uses SynapseOS server snapshots, equipment/vehicle eligibility, heading and speed. Verify authorized sides, stale/lost state and moving contacts in a clean mission.
+   - Map markers and NATO symbology use SynapseOS/Arma-owned draw paths and marker records.
+   - Vehicle access and device eligibility use SynapseOS-owned rules. The cTab gear-check bridge has been removed.
+   - Aircraft display routing and ISR camera lifecycle are owned by SynapseOS; actual PiP and aircraft/UAV operation still need Arma acceptance.
+   - No cTab item classes are accepted as legacy aliases; equip `ATLAS_Tablet`, `ATLAS_Phone`, `ATLAS_MicroDAGR` or `ATLAS_HelmetCam`.
    - Keep CBA keybinds; do not bundle cTab code or assets.
 
-2. **Prove the dependency target.** Launch and run the required flows with only Arma 3 + CBA. Confirm no missing config classes, textures, functions or runtime globals. Then update workshop requirements and credits for the actual final dependency set.
+2. **Prove the dependency target.** Build and launch with only Arma 3 + CBA. Confirm no missing config classes, textures, functions or runtime globals. Then update the staged Workshop package and required-item list to remove cTab. The previously staged beta PBO is still a legacy build and must not be advertised as independent.
 
 ### P0 — cross-client acceptance before widening beta
 
@@ -54,7 +54,7 @@ Run the existing CB01–CB14 sheet with two or more clients: directed messages, 
 
 ## Release gates
 
-1. **Standalone beta:** cTab-free build passes its focused smoke path on Arma 3 + CBA, and no cTab config/runtime references remain in the production addon.
+1. **Standalone beta:** a freshly built addon passes its focused smoke path on Arma 3 + CBA with cTab absent. The production addon source contains no cTab config/runtime references. This gate is not yet complete.
 2. **Closed beta:** P0 multiplayer cases pass on the target modpack; crashes, information leaks and data-loss issues are resolved; UI is reviewed at tester resolutions/scales.
 3. **Public release:** matching source/runtime/signature packages are reproducible; Workshop description and required-item list match the binary; release notes document known limitations and rollback.
 
