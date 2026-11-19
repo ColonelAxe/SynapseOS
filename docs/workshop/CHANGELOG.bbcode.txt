@@ -1,8 +1,6 @@
-[h2]TOC setup and live displays — beta update[/h2]
-Added Eden TOC Setup: one master laptop/PC and up to four independently assigned screens.
-Each screen supports ATLAS briefing map, ISR video, or Standby.
-Control displays from the master workstation using ATLAS / TOC Displays.
-Live source selection supports friendly UAVs and equipped ATLAS helmet cameras.
-Retained TOC / Synced Displays for grouped screen switching.
-Requires CBA_A3. ACE is optional. PiP must be enabled for live video.
-Build/config validation and five focused dedicated-server TOC cases passed. Live Eden UI, client PiP and late-join acceptance remain for beta testing.
+[h2]Live TOC maps and aircraft-style U display — beta update[/h2]
+Interactive SynapseOS map controller: drag, zoom, recenter, live sync and manual sharing.
+Per-monitor live friendly map with saved shared viewport and 2048x2048 styled display texture.
+Mounted U overlay restyled as an MFD; ownship follow updated every frame.
+Aircraft range rings, distance labels, heading ticks and heading vector.
+CBA_A3 required; ACE optional. Backend validation passed; client UI/PiP and multiplayer viewing await owner testing.

@@ -36,7 +36,7 @@ if (_action=="OPEN") exitWith {
         private _id = 9100 + _slot * 10;
         ["SICS_Text",_id,      [0.05,_y,0.30,0.062]] call _create;
         private _map = ["SICS_Button",_id+1,[0.36,_y,0.09,0.062],"Map"] call _create;
-        private _standby = ["SICS_Button",_id+2,[0.455,_y,0.105,0.062],"Standby"] call _create;
+        _map ctrlSetTooltip "Open live monitor map controls"; _map setVariable ["ATLAS_controlScreen",_screen]; _map ctrlAddEventHandler ["ButtonClick",{["OPEN",(_this select 0) getVariable ["ATLAS_controlScreen",objNull]] call SICS_fnc_tocMap}]; private _standby = ["SICS_Button",_id+2,[0.455,_y,0.105,0.062],"Standby"] call _create;
         ["SICS_Combo",_id+3,[0.57,_y,0.30,0.062]] call _create;
         private _isr = ["SICS_Button",_id+4,[0.875,_y,0.075,0.062],"Set"] call _create;
         {

@@ -23,6 +23,10 @@ ATLAS_tocCameras=_cameras select {
 {
     private _screen=_x;
     if (!isNull _screen && {alive _screen} && {player distance _screen<100}) then {
+        if !(_screen getVariable ["ATLAS_mapControlAction",false]) then {
+    _screen setVariable ["ATLAS_mapControlAction",true];
+    _screen addAction ["SynapseOS / Control monitor map",{params ["_target"];["OPEN",_target] call SICS_fnc_tocMap},nil,1.7,true,true,"","alive _target && {side group _this==(_target getVariable ['ATLAS_briefSide',sideUnknown])}",5];
+};
         private _managed = _screen getVariable ["ATLAS_managedBriefing",false];
         if (!_managed) then {[_screen] call SICS_fnc_tocActions};
         private _feed=_screen getVariable ["ATLAS_tocFeed",[]];
@@ -32,7 +36,7 @@ ATLAS_tocCameras=_cameras select {
                 private _texture = "#(rgb,8,8,3)color(0.02,0.04,0.06,1)";
                 private _name = _screen getVariable ["ATLAS_briefName",""];
                 if (_kind=="MAP" && {_name!=""} && {side group player==_side}) then {
-                    _texture = format ['#(rgb,1024,1024,1)ui("ATLAS_BriefDisplay","%1")',_name];
+                    _texture = format ['#(rgb,2048,2048,1)ui("ATLAS_BriefDisplay","%1")',_name];
                 };
                 if (_texture != (_screen getVariable ["ATLAS_tocBaseTexture",""])) then {
                     _screen setObjectTexture [_selection,_texture];

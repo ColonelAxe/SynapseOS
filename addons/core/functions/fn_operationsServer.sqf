@@ -52,7 +52,7 @@ if (_action=="BRIEF") exitWith {
     } else {_unit distance _screen<=5};
     if (!_canCommand || {isNull _screen} || {!alive _screen} || {!_canReach} || {_screen getVariable ["ATLAS_briefSide",sideUnknown]!=_side} || {_p isEqualTo []} || {(_p select 2)!="PLAN"} || {(_p select 7)!="PUBLISHED"} || {!([_unit,_p] call SICS_fnc_operationsAccess)} || {!finite _scale} || {_scale<0.001} || {_scale>1}) exitWith {["Briefing needs a nearby TOC master or standalone screen and a published same-side overlay."] call _notice};
     if (_focus!="" && {_f isEqualTo [] || {!([_unit,_f] call SICS_fnc_operationsAccess)} || {(_f select 6)!=""} || {(_f select 2)!="GRAPHIC"} || {(createHashMapFromArray (_f select 10)) getOrDefault ["plan",""]!=_plan}}) exitWith {["Only a side-shared graphic from this overlay may be highlighted on a room screen."] call _notice};
-    _screen setVariable ["ATLAS_briefing",[_side,_plan,_focus,_scale],true];
+    _screen setVariable ["ATLAS_briefing",[_side,_plan,_focus,_scale],true]; _screen setVariable ["ATLAS_tocMapView",nil,true];
     [_unit,"BRIEFING","PUBLISHED",_plan,_p select 3,"","",getPosASL _screen] call SICS_fnc_operationsJournal;
 };
 if !(_action in ["UPSERT","DELETE","STATE"]) exitWith {};

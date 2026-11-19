@@ -14,7 +14,7 @@ if (isServer) then {
     _object setVariable ["ATLAS_briefName",_name,true];_object setVariable ["ATLAS_briefSide",_side,true];
     _object setVariable ["ATLAS_briefing",[_side,"","",0.1],true];
     _object setVariable ["ATLAS_managedBriefing",_managed,true];
-    if (!_managed) then {_object setObjectTextureGlobal [_selection,format ['#(rgb,1024,1024,1)ui("ATLAS_BriefDisplay","%1")',_name]]};
+    if (!_managed) then {_object setObjectTextureGlobal [_selection,format ['#(rgb,2048,2048,1)ui("ATLAS_BriefDisplay","%1")',_name]]};
     ATLAS_briefScreens pushBackUnique _object;publicVariable "ATLAS_briefScreens";
 };
 if (!_managed) then {[_object,_side,_title] call SICS_fnc_registerTOC};

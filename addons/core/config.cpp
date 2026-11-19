@@ -41,7 +41,7 @@ class CfgFunctions {
             class tracks {};
             class trackEntries {};
             class isrSources {}; class isrRefresh {}; class moduleTOC {}; class tocScreens {}; class tocSelect {}; class tocActions {}; class tocUpdate {};
-            class moduleTOCSetup {}; class tocConsole {};
+            class moduleTOCSetup {}; class tocConsole {}; class tocMap {}; class tocMapServer {}; class mfdDraw {};
             class centre {};
             class inspect {};
             class channelIdentity {};
@@ -185,7 +185,7 @@ class CfgSounds {
 };
 class CfgRemoteExec {
     class Functions {
-        class SICS_fnc_server {allowedTargets = 2;}; class SICS_fnc_tocSelect {allowedTargets=2;jip=0;};
+        class SICS_fnc_server {allowedTargets = 2;}; class SICS_fnc_tocSelect {allowedTargets=2;jip=0;}; class SICS_fnc_tocMapServer {allowedTargets=2;jip=0;};
         class SICS_fnc_receive {allowedTargets = 0;};
     };
 };
@@ -256,9 +256,28 @@ class ATLAS_BriefDisplay {
     onDraw="_this call SICS_fnc_briefingDraw";
     class controlsBackground {class Background: RscText {idc=-1;x=0;y=0;w=1;h=1;colorBackground[]={0.01,0.03,0.05,1};};};
     class controls {
-        class Title: SICS_Header {idc=2;x=0;y=0;w=1;h=0.08;text="ATLAS / BRIEFING";sizeEx=0.035;};
-        class Map: SICS_Map {idc=40;x=0;y=0.08;w=1;h=0.84;};
-        class Caption: SICS_Text {idc=3;x=0;y=0.93;w=1;h=0.06;text="SHARED BRIEFING";sizeEx=0.03;};
+        class Title: SICS_Header {idc=2;x=0.015;y=0.015;w=0.97;h=0.07;text="SynapseOS / ATLAS";sizeEx=0.029;};
+        class Border: RscText {idc=-1;x=0.013;y=0.093;w=0.974;h=0.814;colorBackground[]={0.08,0.55,0.62,1};}; class Map: SICS_Map {idc=40;x=0.017;y=0.097;w=0.966;h=0.806;};
+        class Caption: SICS_Text {idc=3;x=0.02;y=0.925;w=0.96;h=0.055;text="LIVE SHARED PICTURE";sizeEx=0.025;};
+    };
+};
+class ATLAS_TOCMap {
+    idd=87005;movingEnable=0;enableSimulation=1;
+    class controlsBackground {
+        class Shade: RscText {idc=-1;x="safeZoneX";y="safeZoneY";w="safeZoneW";h="safeZoneH";colorBackground[]={0,0,0,0.75};};
+        class Frame: RscText {idc=-1;x="safeZoneX+safeZoneW*0.035";y="safeZoneY+safeZoneH*0.045";w="safeZoneW*0.93";h="safeZoneH*0.91";colorBackground[]={0.012,0.032,0.045,1};};
+        class Border: RscText {idc=-1;x="safeZoneX+safeZoneW*0.048";y="safeZoneY+safeZoneH*0.12";w="safeZoneW*0.904";h="safeZoneH*0.744";colorBackground[]={0.08,0.55,0.62,1};};
+    };
+    class controls {
+        class Title: SICS_Header {idc=2;x="safeZoneX+safeZoneW*0.05";y="safeZoneY+safeZoneH*0.06";w="safeZoneW*0.90";h="safeZoneH*0.05";text="SynapseOS / ATLAS / MONITOR MAP CONTROL";};
+        class Map: SICS_Map {idc=40;x="safeZoneX+safeZoneW*0.05";y="safeZoneY+safeZoneH*0.124";w="safeZoneW*0.90";h="safeZoneH*0.736";};
+        class Status: SICS_Text {idc=3;x="safeZoneX+safeZoneW*0.05";y="safeZoneY+safeZoneH*0.865";w="safeZoneW*0.9";h="safeZoneH*0.026";};
+        class ZoomIn: SICS_Button {idc=-1;x="safeZoneX+safeZoneW*0.05";y="safeZoneY+safeZoneH*0.9";w="safeZoneW*0.10";h="safeZoneH*0.04";text="Zoom +";action="['IN'] call SICS_fnc_tocMap";};
+        class ZoomOut: ZoomIn {x="safeZoneX+safeZoneW*0.16";text="Zoom -";action="['OUT'] call SICS_fnc_tocMap";};
+        class Home: ZoomIn {x="safeZoneX+safeZoneW*0.27";text="My position";action="['HOME'] call SICS_fnc_tocMap";};
+        class Live: ZoomIn {idc=5;x="safeZoneX+safeZoneW*0.39";w="safeZoneW*0.16";text="Live sync: ON";action="['LIVE'] call SICS_fnc_tocMap";};
+        class Share: ZoomIn {x="safeZoneX+safeZoneW*0.56";w="safeZoneW*0.18";text="Share view";action="['SEND'] call SICS_fnc_tocMap";};
+        class Close: ZoomIn {x="safeZoneX+safeZoneW*0.83";w="safeZoneW*0.12";text="Close";action="";onButtonClick="(ctrlParent (_this select 0)) closeDisplay 2";};
     };
 };
 class ATLAS_TOCConsole {
@@ -274,6 +293,9 @@ class RscTitles {
         idd=87010;duration=1e10;fadein=0.15;fadeout=0.15;movingEnable=0;
         onLoad="uiNamespace setVariable ['SICS_quickDisplay',_this select 0]";
         class controlsBackground {
+            class MFDPlate: RscText {idc=94;x=0;y=0;w=0;h=0;colorBackground[]={0.025,0.028,0.03,1};};
+            class MFDBorder: MFDPlate {idc=95;colorBackground[]={0.14,0.23,0.22,1};};
+            class MFDScreen: MFDPlate {idc=96;colorBackground[]={0.004,0.018,0.014,1};};
             class Frame: RscPicture {idc=90;x="safeZoneX+safeZoneW*0.68";y="safeZoneY+safeZoneH*0.57";w="safeZoneW*0.30";h="safeZoneH*0.38";text="\x\sics\addons\core\ui\vehicle_frame_ca.paa";};
         };
         class controls {

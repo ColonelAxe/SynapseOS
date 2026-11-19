@@ -84,3 +84,4 @@ SICS_clientChannels=[];SICS_channelRoster=[];SICS_channelUnread=createHashMap;SI
 [{[] call SICS_fnc_tocScreens},1] call CBA_fnc_addPerFrameHandler;
 
 [{[] call SICS_fnc_tocUpdate},0.05] call CBA_fnc_addPerFrameHandler;
+[{["UPDATE"] call SICS_fnc_tocMap},0.5] call CBA_fnc_addPerFrameHandler;

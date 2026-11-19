@@ -32,3 +32,17 @@ Sources and mission sensor permissions are checked by the server. Selection is s
 This is an independent implementation using the official ACE interaction framework: https://ace3.acemod.org/wiki/framework/interactionmenu-framework . The mod providing the unrelated TOC Video Feed label has not been identified.
 
 Validation: HEMTT compile/config build and signature verification. Actual ACE menu rendering, PiP, JIP and multiplayer switching require owner testing.
+
+## Live monitor map control
+
+Map mode works without a published Operations plan and displays current permitted friendly tracks. From the master console select Map for a screen; or stand within five metres of a configured monitor and use SynapseOS / Control monitor map. Drag to pan and use the wheel or Zoom +/- buttons. My position recentres the view. Live sync is on by default and sends viewport changes twice per second; turn it off to preview locally, then use Share view. The last shared view is retained when closing the controller, switching display modes, and for late joiners. Each monitor has its own viewport. A newly published briefing resets it to the briefing focus.
+
+Maps use 2048x2048 UI textures with a SynapseOS header, cyan border and grid/clock footer. Actual sharpness depends on the screen model's UVs, viewing distance and game texture settings. Live friendly tracking remains subject to equipment and mission tracking policy. Map control is limited to same-side users near the monitor or its master. Source switching remains controlled from the master.
+
+Acceptance: test drag/wheel and Zoom buttons, two independent monitors, a second viewer and late joining; test control denial from an opposing side or outside interaction range. Confirm map tracking updates while the controller is closed and that ISR/Standby restores the saved map when returning to Map.
+
+## Vehicle U overlay / aircraft TAD
+
+The mounted U moving-map overlay now uses a square MFD-style bezel. It follows interpolated visual ownship position every render frame instead of recentering twice per second; telemetry refreshes five times per second. Dismounted U retains the phone frame. Aircraft show three labelled adaptive range rings (metres/kilometres), heading ticks and an ownship heading vector. Existing CBA zoom and interface-position bindings remain available. The overlay is noninteractive so cockpit controls remain available; bezel keys are visual styling. North-up orientation is preserved.
+
+Validation for this update: all 30 backend cases passed, including five new tests for shared map state, independent screens, invalid-coordinate rejection, range denial and control at a monitor. Client drag/zoom, 2K UI textures, overlay rendering, frame rate and late joining require owner testing.
