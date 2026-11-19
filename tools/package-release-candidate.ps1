@@ -1,4 +1,4 @@
-param([string]$Version = '0.12.0-beta.3')
+param([string]$Version = '0.12.0-beta.3',[string]$BuildRoot = '',[string]$SourceCommit = '')
 $ErrorActionPreference = 'Stop'
 
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -6,7 +6,8 @@ $config = Get-Content -LiteralPath (Join-Path $root 'addons/core/config.cpp') -R
 if ($Version -notmatch '^\d+\.\d+\.\d+-beta\.\d+$') { throw 'Use a version like 0.12.0-beta.3.' }
 if ($config -notmatch ('versionStr\s*=\s*"' + [regex]::Escape($Version) + '"')) { throw 'Requested version does not match the addon config.' }
 
-$buildRoot = Join-Path $root '.hemttout/build'
+if ($BuildRoot -eq '') {$BuildRoot = Join-Path $root '.hemttout/build'}
+$buildRoot = [IO.Path]::GetFullPath($BuildRoot)
 $pbo = Join-Path $buildRoot 'addons/sics_core.pbo'
 $signature = Join-Path $buildRoot 'addons/sics_core.pbo.ATLAS_Beta_012.bisign'
 $publicKey = Join-Path $buildRoot 'keys/ATLAS_Beta_012.bikey'
@@ -41,18 +42,19 @@ Copy-Item -Force -LiteralPath $publicKey -Destination (Join-Path $modRoot 'keys'
 Copy-Item -Force -LiteralPath (Join-Path $root 'mod.cpp') -Destination $modRoot
 Copy-Item -Force -LiteralPath (Join-Path $root 'LICENSE') -Destination $modRoot
 Copy-Item -Force -LiteralPath $native -Destination $modRoot
+Copy-Item -Force -LiteralPath (Join-Path $root 'docs/ISR-TOC-TESTING.md') -Destination $modRoot
 
 $readme = @"
 SynapseOS $Version — beta candidate, not a public release
 
 Requirements: Arma 3 and CBA_A3. cTab is not required. ACE is optional.
-This candidate is compiled and signed, but has not passed a clean Arma launch or in-game acceptance. Do not publish it or use it on a live server until the release gates in docs/PRODUCT-WORKUP.md pass.
+This package is compiled and signed for Workshop owner testing. In-game and multiplayer acceptance are pending.
 
 Install for isolated testing: copy @SynapseOS to the Arma 3 directory and enable it with CBA_A3 only. The included atlas_media_x64.dll is a Windows x64 extension for Camera; normal game and server extension policy applies.
 "@
 Set-Content -LiteralPath (Join-Path $modRoot 'README.txt') -Value $readme -Encoding utf8
 
-$gitCommit = (& git -C $root rev-parse --short HEAD).Trim()
+$gitCommit = if ($SourceCommit -ne '') {$SourceCommit} else {(& git -C $root rev-parse --short HEAD).Trim()}
 $release = [ordered]@{
     product = 'SynapseOS'
     version = $Version
@@ -75,4 +77,3 @@ $hashRows = Get-ChildItem -LiteralPath $modRoot -Recurse -File | Sort-Object Ful
 $hashRows | Set-Content -LiteralPath (Join-Path $modRoot 'SHA256SUMS.txt') -Encoding ascii
 
 Write-Output "Workshop upload folder: $modRoot"
-

@@ -1,10 +1,16 @@
-# Workshop test update: ISR and TOC
+# ATLAS TOC screens: ACE feed selection
 
-Operations is hidden from the launcher while its redesign is pending.
-ISR detects drones through the engine isUav flag and refreshes every 0.25 seconds while the ISR page is open. REFRESH SENSORS also forces discovery. Drones must be alive and belong to your side; Zeus must create their crew.
+1. In Eden place TOC / Synced Displays (SynapseOS / Command Element Setup).
+2. F5-sync one or more retexturable screens/laptops to it. A source is optional.
+3. Set your side and correct screen texture selection. Use separate modules for independent screens, or one module to switch several screens together.
+4. Enable Picture in Picture in Arma video settings.
+5. In mission, ACE-interact with the screen within 5 metres: ATLAS TOC Video Feed. Select UAV / ... or HELMET / ... . The list is rebuilt when opening the menu, including newly spawned units.
+6. For helmet feeds, give the friendly unit ATLAS_HelmetCam in inventory or assigned equipment. AI and players are supported. UAVs must be friendly, alive and crewed.
+7. Stop feed / restore display stops the camera for the entire synced group and restores the original screen texture (or briefing view).
 
-In Eden, Command Element Setup / Mission Policy now has Include friendly AI in unit / message lists. This is off by default. It adds friendly AI to the roster; AI do not automatically answer messages. AI contacts use their group as the message destination.
+Without ACE, scroll actions offer next source and stop. ACE remains optional.
+Sources and mission sensor permissions are checked by the server. Selection is shared for all screens in a module; late joiners receive the latest choice. Cameras release when the source is lost, the viewer changes side, the display is destroyed or the viewer moves beyond 100m. Up to eight screen render targets are active per client; other ATLAS PiP views may further constrain engine PiP capacity. UAV view is an exterior camera; helmet view follows eye position and direction.
 
-Place TOC / Synced Displays and sync one UAV plus one or more retexturable screens or laptops. Set the screen texture selection appropriate to the object. All synced screens show that UAV exterior camera. Enable Picture in Picture in video settings. Separate modules can use different drones or texture selections. With Display ISR disabled, screens use the existing tactical briefing display instead. These feeds are client-local and require the viewer to belong to the configured side. This is a camera view, not the UAV gunner optic.
+This is an independent implementation using the official ACE interaction framework: https://ace3.acemod.org/wiki/framework/interactionmenu-framework . The mod providing the unrelated TOC Video Feed label has not been identified.
 
-Validation: HEMTT compilation/config build and signed package verification. Owner in-game and multiplayer testing pending.
+Validation: HEMTT compile/config build and signature verification. Actual ACE menu rendering, PiP, JIP and multiplayer switching require owner testing.

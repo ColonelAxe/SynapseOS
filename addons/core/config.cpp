@@ -40,7 +40,7 @@ class CfgFunctions {
             class notify {};
             class tracks {};
             class trackEntries {};
-            class isrSources {}; class isrRefresh {}; class moduleTOC {}; class tocScreens {};
+            class isrSources {}; class isrRefresh {}; class moduleTOC {}; class tocScreens {}; class tocSelect {}; class tocActions {}; class tocUpdate {};
             class centre {};
             class inspect {};
             class channelIdentity {};
@@ -184,7 +184,7 @@ class CfgSounds {
 };
 class CfgRemoteExec {
     class Functions {
-        class SICS_fnc_server {allowedTargets = 2;};
+        class SICS_fnc_server {allowedTargets = 2;}; class SICS_fnc_tocSelect {allowedTargets=2;jip=0;};
         class SICS_fnc_receive {allowedTargets = 0;};
     };
 };

@@ -13,7 +13,7 @@ class CfgVehicles {
             class tocSide: Edit {property="ATLAS_tocSide";displayName="Side: 0 east / 1 west / 2 independent / 3 civilian";typeName="NUMBER";defaultValue="1";expression="_this setVariable ['tocSide',_value,true]";};
             class tocSelection: Edit {property="ATLAS_tocSelection";displayName="Screen texture selection";typeName="NUMBER";defaultValue="0";expression="_this setVariable ['tocSelection',_value,true]";};
         };
-        class ModuleDescription {description="Sync one UAV and one or more retexturable screens/laptops. ISR shows a live exterior camera. Disable ISR to use tactical briefing displays. Use separate modules for different feeds or texture selections. PiP must be enabled.";};
+        class ModuleDescription {description="Sync one or more retexturable screens/laptops. In-game ACE-interact: ATLAS TOC Video Feed, then choose a friendly UAV or equipped helmet camera. Syncing a source is optional. Screens on the same module switch together. Separate modules allow independent feeds. PiP must be enabled.";};
     };
     class ATLAS_ModuleSettings: Module_F {
         scope=2;scopeCurator=0;displayName="Command Element Setup / Mission Policy";category="ATLAS_Modules";

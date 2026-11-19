@@ -81,4 +81,6 @@ SICS_clientChannels=[];SICS_channelRoster=[];SICS_channelUnread=createHashMap;SI
 };
 
 [{if (!isNull findDisplay 87000 && {missionNamespace getVariable ["SICS_osApp",""]=="ATLAS"} && {missionNamespace getVariable ["SICS_tab",""]=="ISR"}) then {[] call SICS_fnc_isrRefresh}},0.25] call CBA_fnc_addPerFrameHandler;
-[{[] call SICS_fnc_tocScreens},2] call CBA_fnc_addPerFrameHandler;
+[{[] call SICS_fnc_tocScreens},1] call CBA_fnc_addPerFrameHandler;
+
+[{[] call SICS_fnc_tocUpdate},0.05] call CBA_fnc_addPerFrameHandler;
