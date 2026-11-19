@@ -7,3 +7,7 @@
 5. The owner republishes, tests in Arma, and reports the next fixes.
 
 Ready to republish means the package is prepared for owner testing. It does not claim in-game or multiplayer acceptance before those tests happen.
+
+
+Use only dist/workshop/SynapseOS for Workshop uploads. Rebuilds update that folder in place. Do not create dated mod folders.
+
