@@ -31,7 +31,7 @@ ATLAS_networkTracks=createHashMap;ATLAS_followRoute="";
     {
         private _name=_x getVariable ["ATLAS_briefName",""];private _d=findDisplay _name;
         if (!isNull _d && {player distance _x<100}) then {displayUpdate _d};
-        if !(_x getVariable ["SICS_actionAdded",false]) then {[_x,_x getVariable ["ATLAS_briefSide",west],"ATLAS briefing"] call SICS_fnc_registerTOC};
+        if !(_x getVariable ["SICS_actionAdded",false] || {_x getVariable ["ATLAS_managedBriefing",false]}) then {[_x,_x getVariable ["ATLAS_briefSide",west],"ATLAS briefing"] call SICS_fnc_registerTOC};
     } forEach (missionNamespace getVariable ["ATLAS_briefScreens",[]]);
     if (isNil "ATLAS_contactVisualState") then {ATLAS_contactVisualState=createHashMap};
     {

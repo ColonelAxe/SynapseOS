@@ -2,7 +2,7 @@ class CfgPatches {
     class sics_core {
         name = "SynapseOS Modular Tactical Platform";
         versionStr = "0.12.0-beta.3";
-        units[] = {"ATLAS_ModuleSettings","ATLAS_ModuleTOC"};
+        units[] = {"ATLAS_ModuleSettings","ATLAS_ModuleTOC","ATLAS_ModuleTOCSetup"};
         weapons[] = {"ATLAS_Tablet","ATLAS_Phone","ATLAS_HelmetCam","ATLAS_MicroDAGR"};
         requiredVersion = 2.18;
         requiredAddons[] = {"cba_keybinding", "A3_UI_F", "A3_Modules_F", "A3_Weapons_F"};
@@ -41,6 +41,7 @@ class CfgFunctions {
             class tracks {};
             class trackEntries {};
             class isrSources {}; class isrRefresh {}; class moduleTOC {}; class tocScreens {}; class tocSelect {}; class tocActions {}; class tocUpdate {};
+            class moduleTOCSetup {}; class tocConsole {};
             class centre {};
             class inspect {};
             class channelIdentity {};
@@ -259,6 +260,14 @@ class ATLAS_BriefDisplay {
         class Map: SICS_Map {idc=40;x=0;y=0.08;w=1;h=0.84;};
         class Caption: SICS_Text {idc=3;x=0;y=0.93;w=1;h=0.06;text="SHARED BRIEFING";sizeEx=0.03;};
     };
+};
+class ATLAS_TOCConsole {
+    idd=87004; movingEnable=0; enableSimulation=1;
+    class controlsBackground {
+        class Shade: RscText {idc=-1;x="safeZoneX";y="safeZoneY";w="safeZoneW";h="safeZoneH";colorBackground[]={0,0,0,0.65};};
+        class Panel: RscText {idc=-1;x=0.037;y=0.22;w=0.926;h=0.56;colorBackground[]={0.025,0.07,0.105,1};};
+    };
+    class controls {};
 };
 class RscTitles {
     class SICS_QuickView {

@@ -1,49 +1,49 @@
-disableSerialization;
-params ["_map","_button","_x","_y"];
-if (SICS_tab=="MESSAGES" && {!((missionNamespace getVariable ["SICS_deviceMode","TABLET"]) in ["PHONE","PORTABLE"])}) exitWith {false};
-private _pos=_map ctrlMapScreenToWorld [_x,_y];
-private _tool=missionNamespace getVariable ["SICS_mapTool","GRID"];
-if (_button==1) exitWith {
-    if (_tool!="LINE") exitWith {false};
-    if (SICS_lineStart isNotEqualTo []) exitWith {SICS_lineStart=[];true};
-    private _found=-1;
+// Test-only addon. Never included in the production mod.
+if (isDedicated) exitWith {[] spawn {waitUntil {sleep 0.2;!isNil "ATLAS_operations" && {time>1}};[] execVM "\x\sics_test\addons\main\server-check.sqf"}};
+if (!hasInterface || {is3DEN}) exitWith {};
+[] spawn {
+    waitUntil {!isNull player};
+    sleep 3;
+    player allowDamage false;
+    player addItemToVest "ATLAS_Tablet";
+    player linkItem "ATLAS_Tablet";
+    player setVariable ["SICS_commander",true,true];
+    group player setGroupIdGlobal ["ATLAS 6"];
+    SICS_testGroups=createHashMap;
     {
-        if ((_x select 3)=="SICS_LINE") then {
-            private _p=_x select 9;
-            private _a=_map ctrlMapWorldToScreen (_p select 0);
-            private _b=_map ctrlMapWorldToScreen (_p select 1);
-            if (_a isNotEqualTo [] && {_b isNotEqualTo []}) then {
-                private _vx=(_b select 0)-(_a select 0);private _vy=(_b select 1)-(_a select 1);
-                private _len=_vx*_vx+_vy*_vy;
-                if (_len>0) then {private _t=((((_this select 2)-(_a select 0))*_vx+((_this select 3)-(_a select 1))*_vy)/_len) max 0 min 1; if ([(_a select 0)+_t*_vx,(_a select 1)+_t*_vy] distance2D [_this select 2,_this select 3]<0.02) exitWith {_found=_x select 0}};
-            };
-        };
-    } forEach values SICS_clientMarkers;
-    if (_found>=0) then {[player,"MARKER_DELETE",[_found],SICS_terminal] remoteExecCall ["SICS_fnc_server",2]};true
-};
-if (_button!=0) exitWith {false};
-// Selection is independent of the picked grid and survives panning.
-if (_tool in ["GRID","INSPECT"]) then {
-    private _nearest=objNull;private _distance=0.025;
-    {
-        private _obj=_x select 0;
-        private _screen=_map ctrlMapWorldToScreen (([vehicle _obj] call SICS_fnc_trackStatus) select 2);
-        if (_screen isNotEqualTo []) then {
-            private _d=_screen distance2D [_this select 2,_this select 3];
-            if (_d<_distance) then {_distance=_d;_nearest=_obj};
-        };
-    } forEach ([] call SICS_fnc_trackEntries);
-    if (!isNull _nearest) then {SICS_selectedUnit=_nearest;[] call SICS_fnc_details};
-    if (_tool=="INSPECT") exitWith {
-        if (isNull _nearest) then {(findDisplay 87000 displayCtrl 60) ctrlSetText "INSPECT UNIT  /  No friendly symbol here. Previous selection retained."} else {
-            if ((missionNamespace getVariable ["SICS_deviceMode","TABLET"]) in ["PHONE","PORTABLE"]) then {SICS_mobilePane="APP"};
-            [] call SICS_fnc_inspect;
-        };
+        private _g=createGroup west;
+        private _u=_g createUnit ["B_Soldier_TL_F",player getPos [50+_forEachIndex*50,45+_forEachIndex*40],[],0,"NONE"];
+        _u allowDamage false;_u disableAI "TARGET";_u disableAI "AUTOTARGET";_g setCombatMode "BLUE";
+        _u linkItem "ATLAS_Tablet";
+        _g setGroupIdGlobal [_x];
+        SICS_testGroups set [_x,_g];
+    } forEach ["ALPHA 1-1","BRAVO 1-2"];
+    private _p=getPosATL player;
+    private _car=createVehicle ["B_MRAP_01_F",player getPos [70,90],[],0,"NONE"];
+    createVehicleCrew _car;_car allowDamage false;_car limitSpeed 35;
+    driver _car doMove (player getPos [500,0]);
+    private _heli=createVehicle ["B_Heli_Light_01_F",[_p select 0,(_p select 1)+250,180],[],0,"FLY"];
+    createVehicleCrew _heli;_heli allowDamage false;_heli flyInHeight 180;
+    _heli setVelocity [20,10,0];driver _heli doMove (player getPos [2500,45]);
+    private _plane=createVehicle ["B_Plane_CAS_01_F",[(_p select 0)+600,_p select 1,600],[],0,"FLY"];
+    createVehicleCrew _plane;_plane allowDamage false;_plane flyInHeight 600;
+    _plane setDir 90;_plane setVelocity [120,0,0];driver _plane doMove (player getPos [5000,90]);
+    if (isClass (configFile >> "CfgPatches" >> "sics_hatchet") && {isClass (configFile >> "CfgVehicles" >> "vtx_MH60M")}) then {
+        private _hatchet=createVehicle ["vtx_MH60M",player getPos [12,0],[],0,"NONE"];
+        _hatchet setDir getDir player;_hatchet allowDamage false;player moveInDriver _hatchet;createVehicleCrew _hatchet;
+        missionNamespace setVariable ["SICS_testHatchet",_hatchet];
+        diag_log format ["ATLAS_HATCHET_TEST READY: class=%1 driver=%2",typeOf _hatchet,driver _hatchet==player];
     };
+    SICS_testVehicles=[_car,_heli,_plane];
+    {private _g=group driver _x;_g setCombatMode "BLUE";{_x allowDamage false;_x disableAI "TARGET";_x disableAI "AUTOTARGET"} forEach crew _x} forEach SICS_testVehicles;
+    diag_log format ["SICS_TEST READY: playerOwner=%1, alive=%2, access=%3",owner player,alive player,[player] call SICS_fnc_access];
+    [objNull,"TABLET"] call SICS_fnc_open;
+    sleep 3;
+    {
+        private _check=[] execVM ("\x\sics_test\addons\main\"+_x);
+        waitUntil {sleep 0.2;scriptDone _check};
+    } forEach ["operations-check.sqf","beta-check.sqf","smoke.sqf","media-check.sqf","drone-check.sqf","hatchet-check.sqf","ui-audit.sqf"];
+    private _large=[1.15] execVM "\x\sics_test\addons\main\ui-audit.sqf";
+    waitUntil {sleep 0.2;scriptDone _large};
+    diag_log "ATLAS_COMBINED_TEST COMPLETE";
 };
-if (_tool=="INSPECT") exitWith {true};
-SICS_selectedPosition=_pos;
-switch (_tool) do {
-    case "CONTACT": {[_pos] call SICS_fnc_contactEditor;true};
-    case "MARKER": {
-     .øï¾m¢G§²ÚîÆ­yÕ…¥¹qÍ•ÉÙ•Èµ¡•¬¹ÍÅ˜‰õôì)¥˜€ …¡…Í%¹Ñ•É™…”ñğí¥ÌÍ9ô¤•á¥Ñ]¥Ñ íôì)mtÍÁ…İ¸ì(€€€İ…¥ÑU¹Ñ¥°ì…¥Í9Õ±°Á±…å•Éôì(€€€Í±••À€Ìì(€€€Á±…å•È…±±½İ…µ…”™…±Í”ì(€€€Á±…å•È…‘‘%Ñ•µQ½Y•ÍĞ€‰Q1M}Q…‰±•Ğˆì(€€€Á±…å•È±¥¹­%Ñ•´€‰Q1M}Q…‰±•Ğˆì(€€€Á±…å•ÈÍ•ÑY…É¥…‰±”l‰M%M}½µµ…¹‘•Èˆ±ÑÉÕ”±ÑÉÕ•tì(€€€É½ÕÀÁ±…å•ÈÍ•ÑÉ½ÕÁ%‘±½‰…°l‰Q1L€Ø‰tì(€€€M%M}Ñ•ÍÑÉ½ÕÁÌõÉ•…Ñ•!…Í¡5…Àì(€€€ì(€€€€€€€ÁÉ¥Ù…Ñ”}œõÉ•…Ñ•É½ÕÀİ•ÍĞì(€€€€€€€ÁÉ¥Ù…Ñ”}Ôõ}œÉ•…Ñ•U¹¥Ğl‰	}M½±‘¥•É}Q1}ˆ±Á±…å•È•ÑA½ÌlÔÀ­}™½É…¡%¹‘•à¨ÔÀ°ĞÔ­}™½É…¡%¹‘•à¨ĞÁt±mt°À°‰9=9‰tì(€€€€€€€}Ô…±±½İ…µ…”™…±Í”í}Ô‘¥Í…‰±•$€‰QIPˆí}Ô‘¥Í…‰±•$€‰UQ=QIPˆí}œÍ•Ñ½µ‰…Ñ5½‘”€‰	1Uˆì(€€€€€€€}Ô±¥¹­%Ñ•´€‰Q1M}Q…‰±•Ğˆì(€€€€€€€}œÍ•ÑÉ½ÕÁ%‘±½‰…°m}átì(€€€€€€€M%M}Ñ•ÍÑÉ½ÕÁÌÍ•Ğm}à±}tì(€€€ô™½É… l‰1A!€Ä´Äˆ°‰	IY<€Ä´È‰tì(€€€ÁÉ¥Ù…Ñ”}Àõ•ÑA½ÍQ0Á±…å•Èì(€€€ÁÉ¥Ù…Ñ”}…ÈõÉ•…Ñ•Y•¡¥±”l‰	}5IA|ÀÅ}ˆ±Á±…å•È•ÑA½ÌlÜÀ°äÁt±mt°À°‰9=9‰tì(€€€É•…Ñ•Y•¡¥±•É•Ü}…Èí}…È…±±½İ…µ…”™…±Í”í}…È±¥µ¥ÑMÁ••€ÌÔì(€€€‘É¥Ù•È}…È‘½5½Ù”€¡Á±…å•È•ÑA½ÌlÔÀÀ°Át¤ì(€€€ÁÉ¥Ù…Ñ”}¡•±¤õÉ•…Ñ•Y•¡¥±”l‰	}!•±¥}1¥¡Ñ|ÀÅ}ˆ±m}ÀÍ•±•Ğ€À°¡}ÀÍ•±•Ğ€Ä¤¬ÈÔÀ°ÄàÁt±mt°À°‰1d‰tì(€€€É•…Ñ•Y•¡¥±•É•Ü}¡•±¤í}¡•±¤…±±½İ…µ…”™…±Í”í}¡•±¤™±å%¹!•¥¡Ğ€ÄàÀì(€€€}¡•±¤Í•ÑY•±½¥ÑälÈÀ°ÄÀ°Átí‘É¥Ù•È}¡•±¤‘½5½Ù”€¡Á±…å•È•ÑA½ÌlÈÔÀÀ°ĞÕt¤ì(€€€ÁÉ¥Ù…Ñ”}Á±…¹”õÉ•…Ñ•Y•¡¥±”l‰	}A±…¹•}M|ÀÅ}ˆ±l¡}ÀÍ•±•Ğ€À¤¬ØÀÀ±}ÀÍ•±•Ğ€Ä°ØÀÁt±mt°À°‰1d‰tì(€€€É•…Ñ•Y•¡¥±•É•Ü}Á±…¹”í}Á±…¹”…±±½İ…µ…”™…±Í”í}Á±…¹”™±å%¹!•¥¡Ğ€ØÀÀì(€€€}Á±…¹”Í•Ñ¥È€äÀí}Á±…¹”Í•ÑY•±½¥ÑälÄÈÀ°À°Átí‘É¥Ù•È}Á±…¹”‘½5½Ù”€¡Á±…å•È•ÑA½ÌlÔÀÀÀ°äÁt¤ì(€€€¥˜€¡¥Í±…ÍÌ€¡½¹™¥¥±”€øø€‰™A…Ñ¡•Ìˆ€øø€‰Í¥Í}¡…Ñ¡•Ğˆ¤€˜˜í¥Í±…ÍÌ€¡½¹™¥¥±”€øø€‰™Y•¡¥±•Ìˆ€øø€‰ÙÑá}5 ØÁ4ˆ¥ô¤Ñ¡•¸ì(€€€€€€€ÁÉ¥Ù…Ñ”}¡…Ñ¡•ĞõÉ•…Ñ•Y•¡¥±”l‰ÙÑá}5 ØÁ4ˆ±Á±…å•È•ÑA½ÌlÄÈ°Át±mt°À°‰9=9‰tì(€€€€€€€}¡…Ñ¡•ĞÍ•Ñ¥È•Ñ¥ÈÁ±…å•Èí}¡…Ñ¡•Ğ…±±½İ…µ…”™…±Í”íÁ±…å•Èµ½Ù•%¹É¥Ù•È}¡…Ñ¡•ĞíÉ•…Ñ•Y•¡¥±•É•Ü}¡…Ñ¡•Ğì(€€€€€€€µ¥ÍÍ¥½¹9…µ•ÍÁ…”Í•ÑY…É¥…‰±”l‰M%M}Ñ•ÍÑ!…Ñ¡•Ğˆ±}¡…Ñ¡•Ñtì(€€€€€€€‘¥…}±½œ™½Éµ…Ğl‰Q1M}!Q!Q}QMPIdè±…ÍÌô”Ä‘É¥Ù•Èô”Èˆ±ÑåÁ•=˜}¡…Ñ¡•Ğ±‘É¥Ù•È}¡…Ñ¡•ĞôõÁ±…å•Étì(€€€ôì(€€€M%M}Ñ•ÍÑY•¡¥±•Ìõm}…È±}¡•±¤±}Á±…¹•tì(€€€íÁÉ¥Ù…Ñ”}œõÉ½ÕÀ‘É¥Ù•È}àí}œÍ•Ñ½µ‰…Ñ5½‘”€‰	1Uˆíí}à…±±½İ…µ…”™…±Í”í}à‘¥Í…‰±•$€‰QIPˆí}à‘¥Í…‰±•$€‰UQ=QIP‰ô™½É… É•Ü}áô™½É… M%M}Ñ•ÍÑY•¡¥±•Ìì(€€€‘¥…}±½œ™½Éµ…Ğl‰M%M}QMPIdèÁ±…å•É=İ¹•Èô”Ä°…±¥Ù”ô”È°…•ÍÌô”Ìˆ±½İ¹•ÈÁ±…å•È±…±¥Ù”Á±…å•È±mÁ±…å•Ét…±°M%M}™¹}…•ÍÍtì(€€€m½‰©9Õ±°°‰Q	1P‰t…±°M%M}™¹}½Á•¸ì(€€€Í±••À€Ìì(€€€ì(€€€€€€€ÁÉ¥Ù…Ñ”}¡•¬õmt•á•Y4€ ‰qáqÍ¥Í}Ñ•ÍÑq…‘‘½¹Íqµ…¥¹pˆ­}à¤ì(€€€€€€€İ…¥ÑU¹Ñ¥°íÍ±••À€À¸ÈíÍÉ¥ÁÑ½¹”}¡•­ôì(€€€ô™½É… l‰½Á•É…Ñ¥½¹Ìµ¡•¬¹ÍÅ˜ˆ°‰‰•Ñ„µ¡•¬¹ÍÅ˜ˆ°‰Íµ½­”¹ÍÅ˜ˆ°‰µ•‘¥„µ¡•¬¹ÍÅ˜ˆ°‰‘É½¹”µ¡•¬¹ÍÅ˜ˆ°‰¡…Ñ¡•Ğµ¡•¬¹ÍÅ˜ˆ°‰Õ¤µ…Õ‘¥Ğ¹ÍÅ˜‰tì(€€€ÁÉ¥Ù…Ñ”}±…É”õlÄ¸ÄÕt•á•Y4€‰qáqÍ¥Í}Ñ•ÍÑq…‘‘½¹Íqµ…¥¹qÕ¤µ…Õ‘¥Ğ¹ÍÅ˜ˆì(€€€İ…¥ÑU¹Ñ¥°íÍ±••À€À¸ÈíÍÉ¥ÁÑ½¹”}±…É•ôì(€€€‘¥…}±½œ€‰Q1M}=5	%9}QMP=5A1Qˆì)ôì(

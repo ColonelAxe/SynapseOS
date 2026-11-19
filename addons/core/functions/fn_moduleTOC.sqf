@@ -6,7 +6,7 @@ private _sources=_objects select {getNumber (configOf _x >> "isUav")==1 || {_x i
 private _source=_sources param [0,objNull];
 private _kind=if (_source isKindOf "Man") then {"HELMET"} else {"UAV"};
 if (isNull _source || {side group _source!=_side && {side _source!=_side}}) then {_source=objNull;_kind="OFF"};
-private _screens=_objects select {!(_x isKindOf "Logic") && {!(_x isKindOf "Man")} && {getNumber (configOf _x >> "isUav")!=1}};
+private _screens=_objects select {!(_x isKindOf "Logic") && {!(_x isKindOf "Man")} && {getNumber (configOf _x >> "isUav")!=1} && {!(_x getVariable ["ATLAS_managedBriefing",false])} && {!(_x in (missionNamespace getVariable ["ATLAS_tocMasters",[]]))}};
 {
     private _textures=getObjectTextures _x;
     if (_selection<count _textures) then {

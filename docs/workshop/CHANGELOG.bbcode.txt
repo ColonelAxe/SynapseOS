@@ -1,6 +1,8 @@
-[h2]Initial private staging upload[/h2]
-SynapseOS modular tactical platform featuring ATLAS.
-This private upload is a distribution staging build, not a public release.
-0.12.0-beta.3 candidate removes the cTab runtime dependency and introduces SynapseOS-owned device, BFT, marker, vehicle-access, aviation and ISR paths.
-Requires Arma 3 and CBA_A3. ACE remains optional.
-The candidate is signed and builds, but clean Arma launch, in-game acceptance and separate-client multiplayer validation are still pending.
+[h2]TOC setup and live displays — beta update[/h2]
+Added Eden TOC Setup: one master laptop/PC and up to four independently assigned screens.
+Each screen supports ATLAS briefing map, ISR video, or Standby.
+Control displays from the master workstation using ATLAS / TOC Displays.
+Live source selection supports friendly UAVs and equipped ATLAS helmet cameras.
+Retained TOC / Synced Displays for grouped screen switching.
+Requires CBA_A3. ACE is optional. PiP must be enabled for live video.
+Build/config validation and five focused dedicated-server TOC cases passed. Live Eden UI, client PiP and late-join acceptance remain for beta testing.

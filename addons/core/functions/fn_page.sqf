@@ -69,6 +69,10 @@ if (SICS_tab=="ISR") then {
 if (SICS_tab=="TOC") then {
     ["SICS_Text",120,[0.595,0.23,0.14,0.20],"TACTICAL OPERATIONS CENTRE\n\nMission-defined terminals provide shared C2 access within 5 metres."] call SICS_fnc_control;
     ["SICS_Text",121,[0.595,0.47,0.14,0.21],if (isNull SICS_terminal) then {"MOBILE STATION\nUse an authorised terminal to enter TOC mode."} else {format ["CONNECTED\n%1",SICS_terminal getVariable ["SICS_name","TOC"]]}] call SICS_fnc_control;
+    if (!isNull SICS_terminal && {!isNil {SICS_terminal getVariable "ATLAS_tocSlots"}}) then {
+        private _displays = ["SICS_Button",122,[0.75,0.79,0.195,0.05],"TOC Displays"] call SICS_fnc_control;
+        _displays ctrlAddEventHandler ["ButtonClick",{["OPEN",SICS_terminal] call SICS_fnc_tocConsole}];
+    };
 };
 if (SICS_tab=="REPORTS" && {missionNamespace getVariable ["ATLAS_reportPhoto",""]!=""}) then {
     private _photo=["SICS_Button",381,[0.74,0.795,0.15,0.04],"Photo attached"] call SICS_fnc_control;

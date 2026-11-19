@@ -1,4 +1,22 @@
-# ATLAS TOC screens: ACE feed selection
+# ATLAS TOC displays in Eden
+
+## TOC Setup
+
+1. Place a laptop or PC and set its Eden **Variable Name** to `Master`.
+2. Place up to four retexturable displays and name them, for example `Screen1`, `screen2`, and `Screen3`.
+3. Place **TOC Setup** under **SynapseOS / Command Element Setup**. Enter the master variable, select the side, and enter each screen variable in its own slot. Leave unused slots blank. Use the common **Screen texture selection** for the chosen display models (normally `0`). Use a separate module and distinct objects for another room.
+4. Choose a startup view for each assigned screen. The defaults are **ATLAS briefing map** for Screen 1, **ISR video** for Screen 2, and **Standby** for Screens 3 and 4. ISR waits for an operator to choose a source. Setup issues identify the field in the server RPT and in single-player preview chat.
+5. Preview the mission. Within five metres of the laptop, open **ATLAS / TOC Displays** with the scroll action or use **TOC Displays** in the workstation's ATLAS TOC tab. Use **Map**, **Standby**, or choose an ISR source and press **Set** in the corresponding row. Enable Picture in Picture on viewers for ISR.
+6. To populate the map, open SynapseOS from the master. In **Operations → Plans**, select a published side-shared overlay or objective and press **Brief screen**. The lowest-numbered available Map slot receives the briefing. Map, ISR, and Standby preserve the screen's last published briefing so it can reappear when the screen returns to Map.
+
+### In-game acceptance
+
+- Start with two assigned screens and two blank slots. Verify one Map row and one ISR row. Choose a friendly camera in Screen 2 and confirm that Screen 1 stays on the map.
+- Add a third screen in Standby and enter a nonexistent object name in Screen 4. Verify the three valid rows still work and the RPT identifies Screen 4. Repeat with a duplicate name.
+- From the master workstation, brief a published overlay on Screen 1. Switch Screen 1 through Standby and back to Map, and verify that it restores the briefing while Screen 2 stays on its feed.
+- With two same-side clients and an opposing-side client, check that screen changes replicate, a late joiner sees the current modes, and only nearby same-side players can control the master. Destroy or remove a selected source and verify the screen releases the camera and shows an awaiting-source status in the console.
+
+## TOC / Synced Displays
 
 1. In Eden place TOC / Synced Displays (SynapseOS / Command Element Setup).
 2. F5-sync one or more retexturable screens/laptops to it. A source is optional.

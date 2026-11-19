@@ -58,8 +58,18 @@ if (_action=="HIDE") exitWith {
 };
 if (_action=="BRIEF") exitWith {
     if (_entry isEqualTo []) exitWith {hint "Select a published overlay or one of its objectives."};
-    private _screens=(missionNamespace getVariable ["ATLAS_briefScreens",[]]) select {alive _x && {_x distance player<=5} && {_x getVariable ["ATLAS_briefSide",sideUnknown]==side group player}};
-    if (_screens isEqualTo []) exitWith {hint "Move within 5 metres of a registered briefing screen."};
+    private _terminal = missionNamespace getVariable ["SICS_terminal",objNull];
+    private _screens = if (!isNull _terminal && {!isNil {_terminal getVariable "ATLAS_tocSlots"}}) then {
+        ((_terminal getVariable ["ATLAS_tocSlots",[]]) apply {_x select 2}) select {
+            alive _x && {(_x getVariable ["ATLAS_tocFeed",[]]) param [3,""]=="MAP"}
+        }
+    } else {
+        (missionNamespace getVariable ["ATLAS_briefScreens",[]]) select {
+            alive _x && {!(_x getVariable ["ATLAS_managedBriefing",false])} &&
+                {_x distance player<=5} && {_x getVariable ["ATLAS_briefSide",sideUnknown]==side group player}
+        }
+    };
+    if (_screens isEqualTo []) exitWith {hint "Set a TOC display to Map or move within 5 metres of a standalone briefing screen."};
     private _plan=if ((_entry select 2)=="PLAN") then {_id} else {(createHashMapFromArray (_entry select 10)) getOrDefault ["plan",""]};
     ["BRIEF",[netId (_screens select 0),_plan,["",_id] select ((_entry select 2)=="GRAPHIC"),ctrlMapScale (_d displayCtrl 2601)]] call _send;
 };
@@ -125,7 +135,7 @@ if (_tab=="ORDERS") then {{(_d displayCtrl _x) ctrlShow false} forEach [2611,261
 if (_tab=="JOURNAL") then {{(_d displayCtrl _x) ctrlShow false} forEach [2613,2614]};
 if (_tab=="PLANS") then {
     {private _b=["SICS_Button",2620+_forEachIndex,[0.615+_forEachIndex*0.17,0.77,0.16,0.055],_x select 0] call SICS_fnc_control;_b setVariable ["ATLAS_action",_x select 1];_b ctrlAddEventHandler ["ButtonClick",{[(_this select 0) getVariable "ATLAS_action"] call SICS_fnc_operations}]} forEach [["Follow route","FOLLOW"],["Hide / show","HIDE"]];
-    private _b=["SICS_Button",2624,[0.615,0.845,0.33,0.045],"Brief on nearest screen"] call SICS_fnc_control;_b ctrlAddEventHandler ["ButtonClick",{["BRIEF"] call SICS_fnc_operations}];
+    private _b=["SICS_Button",2624,[0.615,0.845,0.33,0.045],"Brief screen"] call SICS_fnc_control;_b ctrlAddEventHandler ["ButtonClick",{["BRIEF"] call SICS_fnc_operations}];
 };
 if (_tab in ["CONTACTS","ORDERS","SUPPORT","AIR"]) then {
     private _state=["SICS_Combo",2622,[0.615,0.77,0.21,0.055],""] call SICS_fnc_control;

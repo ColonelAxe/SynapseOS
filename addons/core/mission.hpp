@@ -2,7 +2,7 @@ class CfgFactionClasses {class ATLAS_Modules {displayName="SynapseOS / Command E
 class CfgVehicles {
     class Logic;
     class Module_F: Logic {
-        class AttributesBase {class Default;class Edit;class Checkbox;};
+        class AttributesBase {class Default;class Edit;class Checkbox;class Combo;};
         class ModuleDescription {};
     };
     class ATLAS_ModuleTOC: Module_F {
@@ -14,6 +14,27 @@ class CfgVehicles {
             class tocSelection: Edit {property="ATLAS_tocSelection";displayName="Screen texture selection";typeName="NUMBER";defaultValue="0";expression="_this setVariable ['tocSelection',_value,true]";};
         };
         class ModuleDescription {description="Sync one or more retexturable screens/laptops. In-game ACE-interact: ATLAS TOC Video Feed, then choose a friendly UAV or equipped helmet camera. Syncing a source is optional. Screens on the same module switch together. Separate modules allow independent feeds. PiP must be enabled.";};
+    };
+    class ATLAS_ModuleTOCSetup: Module_F {
+        scope=2;scopeCurator=0;displayName="TOC Setup";category="ATLAS_Modules";
+        function="SICS_fnc_moduleTOCSetup";functionPriority=5;isGlobal=0;isTriggerActivated=0;
+        class Attributes: AttributesBase {
+            class masterDevice: Edit {property="ATLAS_tocSetupMaster";displayName="Master device object variable";typeName="STRING";defaultValue="''";expression="_this setVariable ['masterDevice',_value]";};
+            class roomSide: Combo {
+                property="ATLAS_tocSetupSide";displayName="Side";typeName="NUMBER";defaultValue="1";expression="_this setVariable ['roomSide',_value]";
+                class Values {class East {name="OPFOR";value=0;}; class West {name="BLUFOR";value=1;}; class Independent {name="Independent";value=2;}; class Civilian {name="Civilian";value=3;};};
+            };
+            class screen1: Edit {property="ATLAS_tocSetupScreen1";displayName="Screen 1 object variable";typeName="STRING";defaultValue="''";expression="_this setVariable ['screen1',_value]";};
+            class view1: Combo {property="ATLAS_tocSetupView1";displayName="Screen 1 startup view";defaultValue="1";expression="_this setVariable ['view1',_value]";typeName="NUMBER"; class Values {class Standby {name="Standby";value=0;}; class Map {name="ATLAS briefing map";value=1;}; class ISR {name="ISR video";value=2;};};};
+            class screen2: Edit {property="ATLAS_tocSetupScreen2";displayName="Screen 2 object variable";typeName="STRING";defaultValue="''";expression="_this setVariable ['screen2',_value]";};
+            class view2: view1 {property="ATLAS_tocSetupView2";displayName="Screen 2 startup view";defaultValue="2";expression="_this setVariable ['view2',_value]";};
+            class screen3: Edit {property="ATLAS_tocSetupScreen3";displayName="Screen 3 object variable";typeName="STRING";defaultValue="''";expression="_this setVariable ['screen3',_value]";};
+            class view3: view1 {property="ATLAS_tocSetupView3";displayName="Screen 3 startup view";defaultValue="0";expression="_this setVariable ['view3',_value]";};
+            class screen4: Edit {property="ATLAS_tocSetupScreen4";displayName="Screen 4 object variable";typeName="STRING";defaultValue="''";expression="_this setVariable ['screen4',_value]";};
+            class view4: view1 {property="ATLAS_tocSetupView4";displayName="Screen 4 startup view";defaultValue="0";expression="_this setVariable ['view4',_value]";};
+            class textureSelection: Edit {property="ATLAS_tocSetupSelection";displayName="Screen texture selection";typeName="NUMBER";defaultValue="0";expression="_this setVariable ['textureSelection',_value]";};
+        };
+        class ModuleDescription {description="Enter the Eden object variable of a master laptop or PC and up to four retexturable displays. Leave unused screens blank. Use one module per room. No synchronization is required.";};
     };
     class ATLAS_ModuleSettings: Module_F {
         scope=2;scopeCurator=0;displayName="Command Element Setup / Mission Policy";category="ATLAS_Modules";

@@ -45,7 +45,12 @@ if (_action in ["ORDER_STATE","ORDER_DUE"]) exitWith {
 if (_action=="BRIEF") exitWith {
     _payload params [["_screenId","",[""]],["_plan","",[""]],["_focus","",[""]],["_scale",0.1,[0]]];
     private _screen=objectFromNetId _screenId;private _p=ATLAS_operations getOrDefault [_plan,[]];private _f=ATLAS_operations getOrDefault [_focus,[]];
-    if (!_canCommand || {isNull _screen} || {_unit distance _screen>5} || {_screen getVariable ["ATLAS_briefSide",sideUnknown]!=_side} || {_p isEqualTo []} || {(_p select 2)!="PLAN"} || {(_p select 7)!="PUBLISHED"} || {!([_unit,_p] call SICS_fnc_operationsAccess)} || {!finite _scale} || {_scale<0.001} || {_scale>1}) exitWith {["Briefing needs a nearby same-side registered screen and a published overlay."] call _notice};
+    private _canReach = if (_screen getVariable ["ATLAS_managedBriefing",false]) then {
+        !isNull _terminal && {alive _terminal} && {_unit distance _terminal<=5} &&
+            {_screen getVariable ["ATLAS_tocMaster",objNull]==_terminal} &&
+            {(_screen getVariable ["ATLAS_tocFeed",[]]) param [3,""]=="MAP"}
+    } else {_unit distance _screen<=5};
+    if (!_canCommand || {isNull _screen} || {!alive _screen} || {!_canReach} || {_screen getVariable ["ATLAS_briefSide",sideUnknown]!=_side} || {_p isEqualTo []} || {(_p select 2)!="PLAN"} || {(_p select 7)!="PUBLISHED"} || {!([_unit,_p] call SICS_fnc_operationsAccess)} || {!finite _scale} || {_scale<0.001} || {_scale>1}) exitWith {["Briefing needs a nearby TOC master or standalone screen and a published same-side overlay."] call _notice};
     if (_focus!="" && {_f isEqualTo [] || {!([_unit,_f] call SICS_fnc_operationsAccess)} || {(_f select 6)!=""} || {(_f select 2)!="GRAPHIC"} || {(createHashMapFromArray (_f select 10)) getOrDefault ["plan",""]!=_plan}}) exitWith {["Only a side-shared graphic from this overlay may be highlighted on a room screen."] call _notice};
     _screen setVariable ["ATLAS_briefing",[_side,_plan,_focus,_scale],true];
     [_unit,"BRIEFING","PUBLISHED",_plan,_p select 3,"","",getPosASL _screen] call SICS_fnc_operationsJournal;
