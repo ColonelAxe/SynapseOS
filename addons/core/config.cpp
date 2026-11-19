@@ -3,7 +3,7 @@ class CfgPatches {
         name = "SynapseOS Modular Tactical Platform";
         versionStr = "0.12.0-beta.3";
         units[] = {"ATLAS_ModuleSettings"};
-        weapons[] = {"ATLAS_Tablet","ATLAS_Phone"};
+        weapons[] = {"ATLAS_Tablet","ATLAS_Phone","ATLAS_HelmetCam","ATLAS_MicroDAGR"};
         requiredVersion = 2.18;
         requiredAddons[] = {"cba_keybinding", "A3_UI_F", "A3_Modules_F", "A3_Weapons_F"};
     };
@@ -120,6 +120,9 @@ class CfgFunctions {
 class CfgWeapons {
     class ItemGPS;
     class ATLAS_Tablet: ItemGPS {
+        ace_arsenal_hide=0;
+        ace_arsenal_uniqueBase="ATLAS_Tablet";
+        ACE_isTool=1;
         scope=2;scopeArsenal=2;
         displayName="ATLAS Tablet";
         picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
@@ -128,6 +131,9 @@ class CfgWeapons {
         author="ATLAS Team";
     };
     class ATLAS_Phone: ItemGPS {
+        ace_arsenal_hide=0;
+        ace_arsenal_uniqueBase="ATLAS_Phone";
+        ACE_isTool=1;
         scope=2;scopeArsenal=2;
         displayName="ATLAS Phone";
         picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
@@ -136,6 +142,9 @@ class CfgWeapons {
         author="ATLAS Team";
     };
     class ATLAS_HelmetCam: ItemGPS {
+        ace_arsenal_hide=0;
+        ace_arsenal_uniqueBase="ATLAS_HelmetCam";
+        ACE_isTool=1;
         scope=2;scopeArsenal=2;
         displayName="ATLAS Helmet Camera";
         picture="\x\sics\addons\core\ui\camera_glyph_ca.paa";
@@ -144,6 +153,9 @@ class CfgWeapons {
         author="ATLAS Team";
     };
     class ATLAS_MicroDAGR: ItemGPS {
+        ace_arsenal_hide=0;
+        ace_arsenal_uniqueBase="ATLAS_MicroDAGR";
+        ACE_isTool=1;
         scope=2;scopeArsenal=2;
         displayName="ATLAS MicroDAGR";
         picture="\x\sics\addons\core\ui\atlas_glyph_ca.paa";
@@ -293,3 +305,4 @@ class SICS_Display {
 };
 
 #include "mission.hpp"
+
