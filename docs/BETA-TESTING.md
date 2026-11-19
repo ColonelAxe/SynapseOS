@@ -1,5 +1,7 @@
 # ATLAS 0.12.0-beta.2 / Closed beta
 
+> **Archived build instructions:** Beta 2 requires original cTab. They do not apply to the current cTab-free `dev` source. Do not follow these dependency steps for the standalone build; first complete the acceptance gate in [PRODUCT-WORKUP.md](PRODUCT-WORKUP.md).
+
 Beta 2 adds the Operations app. Follow [the Operations guide](OPERATIONS.md) for overlay publishing, route navigation, contact updates, support/air tasks, TOC screens, mission policy, saved workspaces and journal export. These additions need separate-client multiplayer acceptance testing, particularly reconnect/JIP, concurrent request claims, access revocation, photo attachments and cross-side isolation.
 
 Start with [the CB1 release checklist](CLOSED-BETA-START-HERE.md), [session sheet](BETA-SESSION.md) and [known limitations](BETA-KNOWN-ISSUES.md). This build is intended for a small, organised beta group. The 681-check core run and 20 isolated dedicated-backend checks are documented in BETA2-VALIDATION.md; a multi-person session remains essential. Use the same frozen kit on every client and the server.
@@ -55,3 +57,6 @@ Stop a session for a reproducible crash, wrong-side data disclosure or broken or
 ## Maintainer rebuild
 
 Run `hemtt build --no-bin`, `tools/build-native.ps1` when changing C++, `native/test-media.ps1`, and `tools/check-preview.mjs`. Build `tests/runtime` separately after the main build; do not run both HEMTT builds concurrently. The local runtime harness runs beta, core, media, drone and normal/large-text UI checks. Run `tools/sign-beta.ps1` after the final build, then `tools/package.ps1`. Back up `.keys` privately; never distribute `.biprivatekey`. The source archive deliberately excludes private signing keys, compiler cache, logs and generated runtime output.
+# Archived beta guide
+
+This checklist was written for the frozen beta 2 build, which requires CBA_A3 and original cTab. It does not apply to the current cTab-free `dev` source. Do not treat the archived package as an independent build; follow the no-cTab acceptance gate in `PRODUCT-WORKUP.md` first.

@@ -38,8 +38,9 @@ ATLAS_networkTracks=createHashMap;ATLAS_followRoute="";
     {
         private _life=_x param [13,[]];
         if ((_x param [11,[]]) isNotEqualTo [] && {_life isNotEqualTo []}) then {
-            private _id=str (_x select 0);private _state=serverTime>(_life select 2);
-            if (ATLAS_contactVisualState getOrDefault [_id,!_state]!=_state) then {[_x] call SICS_fnc_contactApply;ATLAS_contactVisualState set [_id,_state]};
+            private _id=str (_x select 0);private _age=floor ((serverTime-(_life select 1)) max 0);
+            private _state=[serverTime>(_life select 2),floor (_age/60)];
+            if ((ATLAS_contactVisualState getOrDefault [_id,[]]) isNotEqualTo _state) then {[_x] call SICS_fnc_contactApply;ATLAS_contactVisualState set [_id,_state]};
         };
     } forEach (missionNamespace getVariable ["SICS_localRecords",[]]);
     if (count ATLAS_contactVisualState>600) then {private _ids=SICS_localRecords apply {str (_x select 0)};{if !(_x in _ids) then {ATLAS_contactVisualState deleteAt _x}} forEach keys ATLAS_contactVisualState};
@@ -66,7 +67,7 @@ SICS_clientChannels=[];SICS_channelRoster=[];SICS_channelUnread=createHashMap;SI
     };
 },2] call CBA_fnc_addPerFrameHandler;
 [] spawn {
-    waitUntil {!isNull player && {!isNil "cTab_player"}};
+    waitUntil {!isNull player};
     {
         _x params ["_id","_title","_description","_default"];
         ["SynapseOS",_id,[_title,_description],compile format ['["%1"] call SICS_fnc_keyAction',_id],compile format ['["%1",true] call SICS_fnc_keyAction',_id],_default,false] call CBA_fnc_addKeybind;

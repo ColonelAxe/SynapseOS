@@ -91,7 +91,7 @@ if (_support isNotEqualTo []) then {
 private _lz=["LZ","TEST LZ"] call _find;
 ["lz_card_created",_lz isNotEqualTo []] call _log;
 private _heli=createVehicle ["B_Heli_Light_01_F",player getPos [90,270],[],0,"NONE"];_heli allowDamage false;createVehicleCrew _heli;
-moveOut driver _heli;player moveInDriver _heli;[] call cTab_fnc_updateLists;
+moveOut driver _heli;player moveInDriver _heli;
 if (_lz isNotEqualTo []) then {
     ["UPSERT",["",0,"AIR_TASK","TEST AIR TASK","",_lz select 8,[],[["task","TRANSPORT"],["aircraft",netId _heli],["lz",_lz select 0],["ingress",_routeId],["egress",_routeId],["notes","Pickup at the marked LZ"]]]] call _send;
     private _task=["AIR_TASK","TEST AIR TASK"] call _find;

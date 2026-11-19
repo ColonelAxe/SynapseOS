@@ -23,13 +23,13 @@ The supplied `c2.png`, `messages.png` and `tabletui1.png` guide composition, con
 - Messages: channel directory, conversation column with bottom composer, and a channel context panel. The native layout uses a transmission list and selected-message body with a map in the context column.
 - Device: layered graphite chassis, inset dark screen, blue section bars, cyan-blue active tabs, red close control and NATO-friendly blue symbols. HTML uses CSS geometry; Arma uses native background/control layers.
 
-Open `preview/index.html` and choose C2 or Messages to inspect the redesign. `sics-c2-redesign.png` and `sics-messages-redesign.png` are actual browser renders. The preview's channel membership, unit readiness, terrain and conversations are simulated. Native controls preserve existing Arma/cTab data and transmission functions; this redesign does not add AI command automation, attachment transport or an RF model.
+Open `preview/index.html` and choose C2 or Messages to inspect the redesign. `sics-c2-redesign.png` and `sics-messages-redesign.png` are actual browser renders. The preview's channel membership, unit readiness, terrain and conversations are simulated. Native controls use SynapseOS-owned data and transmission functions; this redesign does not add AI command automation, attachment transport or an RF model.
 
 v0.2 was statically built and browser tested. The live screenshot from v0.1 documents the previous layout; v0.2 still requires an in-game layout pass.
 
 The implemented interface reference is `sics-interface.png`. Open `preview/index.html` for the interactive version. Image generation was attempted twice but the provider rejected both outputs; the reference is an actual screenshot of the implemented browser interface.
 
-SICS uses cTab's device model and map data rather than copying its legacy tablet textures. The main view has a compact header, six persistent workspaces, a friendly force roster, a dominant tactical map and an operations / ISR rail. The map stays visible while composing messages, orders and reports. Double clicking selects the attached grid. NATO icons and muted colours distinguish the shared picture from interface controls.
+The visual workflow was informed by established Arma tablet conventions, but the current device model, map data and runtime are SynapseOS-owned and use vanilla Arma assets. The main view has a compact header, six persistent workspaces, a friendly force roster, a dominant tactical map and an operations / ISR rail. The map stays visible while composing messages, orders and reports. Double clicking selects the attached grid. NATO icons and muted colours distinguish the shared picture from interface controls.
 
 | Token | Value | Use |
 | --- | --- | --- |
@@ -43,7 +43,7 @@ SICS uses cTab's device model and map data rather than copying its legacy tablet
 | Amber | `#e8b66a` | Priority and pending acknowledgement |
 | Red | `#ed7e7b` | Reported opposing contact |
 
-The Arma display uses safe-zone coordinates and engine-native RobotoCondensed, list controls and map controls. It shares this composition and palette. It is not pixel-identical to the browser rendering: terrain comes from the loaded Arma world, symbols from cTab, the roster is a native list, and ISR is an engine render target. The browser's map, unit positions, connection state and sensor feed are explicitly simulated.
+The Arma display uses safe-zone coordinates and engine-native RobotoCondensed, list controls and map controls. It shares this composition and palette. It is not pixel-identical to the browser rendering: terrain comes from the loaded Arma world, symbology uses the SynapseOS/Arma marker catalogue, the roster is a native list, and ISR is an engine camera target. The browser's map, unit positions, connection state and sensor feed are explicitly simulated.
 
 ## Workspaces
 

@@ -10,7 +10,9 @@ _name setMarkerTextLocal format ["%1 / %2 / %3%4",_meta param [3,format ["C%1",_
 private _observation=_record param [13,[]];
 if (_observation isNotEqualTo []) then {
     private _stale=serverTime>(_observation select 2);
-    _name setMarkerTextLocal format ["%1 / %2%3",markerText _name,_observation select 0,[""," / STALE"] select _stale];
+    private _age=floor ((serverTime-(_observation select 1)) max 0);
+    private _ageLabel=if (_stale) then {"EXPIRED"} else {if (_age<60) then {"JUST NOW"} else {format ["%1m",floor (_age/60)]}};
+    _name setMarkerTextLocal format ["%1 / %2 / %3",markerText _name,_observation select 0,_ageLabel];
     if (_stale) then {_name setMarkerAlphaLocal 0.4;_name setMarkerColorLocal "ColorGrey"};
 };
 private _entity=(missionNamespace getVariable ["ATLAS_clientOperations",createHashMap]) getOrDefault ["CONTACT:"+str (_record select 0),[]];

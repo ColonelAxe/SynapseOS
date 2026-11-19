@@ -1,13 +1,33 @@
 disableSerialization;
 params [["_action","BUILD"]];
 private _d=findDisplay 87000;if (isNull _d) exitWith {};
+private _profile=[player] call SICS_fnc_profile;
+private _role=toUpper (_profile param [1,""]);
+private _lastRole=missionNamespace getVariable ["ATLAS_opsRole",""];
+if (_role!=_lastRole) then {
+    ATLAS_opsRole=_role;
+    private _roleTab=switch true do {
+        case ((_role find "PILOT")>=0 || {(_role find "AVIATION")>=0}): {"AIR"};
+        case ((_role find "JTAC")>=0 || {(_role find "TACP")>=0}): {"CONTACTS"};
+        case ((_role find "COMMAND")>=0 || {(_role find "TOC")>=0} || {(_role find "HQ")>=0}): {"JOURNAL"};
+        case ((_role find "PLATOON")>=0 || {(_role find "LEADER")>=0} || {(_role find "SQUAD")>=0}): {"PLANS"};
+        default {""};
+    };
+    if (_roleTab!="") then {ATLAS_opsTab=_roleTab};
+};
 private _tab=missionNamespace getVariable ["ATLAS_opsTab","PLANS"];
+if (isNil "ATLAS_journalFilter") then {ATLAS_journalFilter="ALL"};
 private _id=missionNamespace getVariable ["ATLAS_opsSelected",""];
 private _entry=(missionNamespace getVariable ["ATLAS_clientOperations",createHashMap]) getOrDefault [_id,[]];
 private _send={params ["_action","_data"];[player,"OPS_"+_action,_data,missionNamespace getVariable ["SICS_terminal",objNull]] remoteExecCall ["SICS_fnc_server",2]};
 if (_action=="CREATE") exitWith {
     if (_tab=="ORDERS") exitWith {[_d] call SICS_fnc_saveSession;SICS_osApp="ATLAS";SICS_osLastApp="ATLAS";SICS_tab="C2";SICS_compose=true;[] call SICS_fnc_page};
-    if (_tab=="JOURNAL") exitWith {diag_log ("ATLAS JOURNAL / authorised local view"+toString [10]+(ATLAS_clientJournal apply {format ["%1 / %2 / %3 / %4",_x select 10,_x select 2,_x select 7,_x select 3]} joinString toString [10]));hint "Authorised journal written to RPT."};
+    if (_tab=="JOURNAL") exitWith {
+        private _journal=+ATLAS_clientJournal;
+        if (ATLAS_journalFilter!="ALL") then {_journal=_journal select {(_x select 2)==ATLAS_journalFilter}};
+        diag_log ("ATLAS TIMELINE / authorised local view / filter "+ATLAS_journalFilter+toString [10]+(_journal apply {format ["T+%1 / %2 / %3 / %4 / %5 / GRID %6",round (_x select 10),_x select 2,_x select 7,_x select 3,_x select 5,mapGridPosition (_x select 8)]} joinString toString [10]));
+        hint "Filtered timeline written to RPT.";
+    };
     if (_tab=="PRESETS") exitWith {["SAVE",trim ctrlText(_d displayCtrl 2611)] call SICS_fnc_workspace;[] call SICS_fnc_operations};
     private _kind=(_d displayCtrl 2611) lbData lbCurSel (_d displayCtrl 2611);
     if (missionNamespace getVariable ["ATLAS_opsCapture",false]) then {_kind="GRAPHIC"};
@@ -56,9 +76,10 @@ private _oldMap=_d displayCtrl 2601;private _view=missionNamespace getVariable [
 if (!isNull _oldMap) then {private _r=ctrlPosition _oldMap;_view=[ctrlMapScale _oldMap,_oldMap ctrlMapScreenToWorld [(_r select 0)+(_r select 2)/2,(_r select 1)+(_r select 3)/2]];ATLAS_operationsMap=_view};
 {if (ctrlIDC _x>=2600 && {ctrlIDC _x<2800}) then {ctrlDelete _x}} forEach allControls _d;
 SICS_unread set ["OPERATIONS",0];
-["SICS_Header",2600,[0.055,0.14,0.89,0.04],"OPERATIONS / PLAN · COORDINATE · REVIEW"] call SICS_fnc_control;
+["SICS_Header",2600,[0.055,0.14,0.89,0.04],format ["LIVE OPERATIONS / %1 VIEW / %2",if (_role=="") then {"GENERAL"} else {_role select [0,18]},_tab]] call SICS_fnc_control;
 {
-    private _b=["SICS_Button",2650+_forEachIndex,[0.055+_forEachIndex*0.128,0.19,0.122,0.045],_x] call SICS_fnc_control;
+    private _label=if (_x=="JOURNAL") then {"TIMELINE"} else {_x};
+    private _b=["SICS_Button",2650+_forEachIndex,[0.055+_forEachIndex*0.128,0.19,0.122,0.045],_label] call SICS_fnc_control;
     _b setVariable ["ATLAS_tab",_x];_b ctrlSetBackgroundColor (if (_x==_tab) then {[0.02,0.38,0.57,1]} else {[0.06,0.13,0.18,1]});
     _b ctrlAddEventHandler ["ButtonClick",{ATLAS_opsTab=(_this select 0) getVariable "ATLAS_tab";ATLAS_opsSelected="";ATLAS_opsCapture=false;ATLAS_opsDraftPoints=[];[] call SICS_fnc_operations}];
 } forEach ["PLANS","CONTACTS","ORDERS","SUPPORT","AIR","JOURNAL","PRESETS"];
@@ -73,18 +94,35 @@ private _entries=(values ATLAS_clientOperations) select {(_x select 2) in (switc
 _entries sort true;
 {private _i=_list lbAdd format ["%1 / %2",_x select 3,_x select 7];_list lbSetData [_i,_x select 0];_list lbSetTooltip [_i,format ["%1 / %2",_x select 2,_x select 3]]} forEach _entries;
 if (_tab=="ORDERS") then {{if (_x select 2=="C2") then {private _i=_list lbAdd format ["#%1 / %2",_x select 0,(_x select 4) select [0,70]];_list lbSetData [_i,"ORDER:"+str (_x select 0)]}} forEach SICS_localRecords};
-if (_tab=="JOURNAL") then {for "_j" from (count ATLAS_clientJournal-1) to 0 step -1 do {private _e=ATLAS_clientJournal select _j;private _i=_list lbAdd format ["T+%1 %2 / %3",round (_e select 10),_e select 7,_e select 3];_list lbSetData [_i,"JOURNAL:"+(_e select 0)]}};
+if (_tab=="JOURNAL") then {
+    private _journal=+ATLAS_clientJournal;
+    if (ATLAS_journalFilter!="ALL") then {_journal=_journal select {(_x select 2)==ATLAS_journalFilter}};
+    for "_j" from (count _journal-1) to 0 step -1 do {
+        private _e=_journal select _j;
+        private _age=floor ((serverTime-(_e select 10)) max 0);
+        private _when=if (_age<60) then {format ["%1s",_age]} else {format ["%1m",floor (_age/60)]};
+        private _i=_list lbAdd format ["T+%1 / %2 / %3 / %4",round (_e select 10),_e select 7,_e select 3,_when];
+        _list lbSetData [_i,"JOURNAL:"+(_e select 0)];
+    };
+};
 if (_tab=="PRESETS") then {private _presets=["LIST"] call SICS_fnc_workspace;{private _i=_list lbAdd _x;_list lbSetData [_i,"PRESET:"+_x]} forEach _presets};
 private _kindControl=[ ["SICS_Combo","SICS_Edit"] select (_tab=="PRESETS"),2611,[0.055,0.77,0.17,0.055],""] call SICS_fnc_control;
 private _kinds=switch _tab do {case "PLANS":{["PLAN","GRAPHIC"]};case "CONTACTS":{["CONTACT"]};case "SUPPORT":{["SUPPORT"]};case "AIR":{["LZ","AIR_TASK"]};default {[]}};
-if (_tab=="PRESETS") then {_kindControl ctrlSetText (missionNamespace getVariable ["ATLAS_workspaceName","JTAC"])} else {{private _i=_kindControl lbAdd _x;_kindControl lbSetData [_i,_x]} forEach _kinds;_kindControl lbSetCurSel 0};
+if (_tab=="PRESETS") then {_kindControl ctrlSetText (missionNamespace getVariable ["ATLAS_workspaceName","JTAC"])} else {
+    if (_tab=="JOURNAL") then {
+        (_d displayCtrl 2604) ctrlSetText "MISSION TIMELINE / FILTER BY EVENT / SELECT TO LOCATE";
+        {private _i=_kindControl lbAdd _x;_kindControl lbSetData [_i,_x];if (_x==ATLAS_journalFilter) then {_kindControl lbSetCurSel _i}} forEach ["ALL","CONTACT","ORDER","SUPPORT","AIR_TASK","PLAN","GRAPHIC","BRIEFING"];
+        _kindControl ctrlAddEventHandler ["LBSelChanged",{ATLAS_journalFilter=(_this select 0) lbData lbCurSel (_this select 0);[] call SICS_fnc_operations}];
+    } else {{private _i=_kindControl lbAdd _x;_kindControl lbSetData [_i,_x]} forEach _kinds;_kindControl lbSetCurSel 0};
+};
 if (missionNamespace getVariable ["ATLAS_opsCapture",false]) then {_kindControl lbSetCurSel 1;_kindControl ctrlEnable false};
 {
     _x params ["_idc","_label","_actionName","_rect"];
     private _b=["SICS_Button",_idc,_rect,_label] call SICS_fnc_control;_b setVariable ["ATLAS_action",_actionName];
     _b ctrlAddEventHandler ["ButtonClick",{[(_this select 0) getVariable "ATLAS_action"] call SICS_fnc_operations}];
 } forEach [[2612,if (_tab=="JOURNAL") then {"Export RPT"} else {if (_tab=="PRESETS") then {"Save"} else {if (missionNamespace getVariable ["ATLAS_opsCapture",false]) then {"Details"} else {"Create"}}},"CREATE",[0.235,0.77,0.10,0.055]],[2613,["Edit","Apply"] select (_tab=="PRESETS"),"EDIT",[0.355,0.77,0.10,0.055]],[2614,["Delete","Cancel"] select (_tab in ["SUPPORT","AIR"]),"DELETE",[0.475,0.77,0.12,0.055]]];
-if (_tab in ["ORDERS","JOURNAL"]) then {{(_d displayCtrl _x) ctrlShow false} forEach [2611,2613,2614]};
+if (_tab=="ORDERS") then {{(_d displayCtrl _x) ctrlShow false} forEach [2611,2613,2614]};
+if (_tab=="JOURNAL") then {{(_d displayCtrl _x) ctrlShow false} forEach [2613,2614]};
 if (_tab=="PLANS") then {
     {private _b=["SICS_Button",2620+_forEachIndex,[0.615+_forEachIndex*0.17,0.77,0.16,0.055],_x select 0] call SICS_fnc_control;_b setVariable ["ATLAS_action",_x select 1];_b ctrlAddEventHandler ["ButtonClick",{[(_this select 0) getVariable "ATLAS_action"] call SICS_fnc_operations}]} forEach [["Follow route","FOLLOW"],["Hide / show","HIDE"]];
     private _b=["SICS_Button",2624,[0.615,0.845,0.33,0.045],"Brief on nearest screen"] call SICS_fnc_control;_b ctrlAddEventHandler ["ButtonClick",{["BRIEF"] call SICS_fnc_operations}];

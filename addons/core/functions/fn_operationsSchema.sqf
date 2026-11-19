@@ -13,7 +13,7 @@ if (isServer) then {{private _p=ATLAS_serverPhotos get _x;if (_p select 1==getPl
     {if (ATLAS_photoUploaded getOrDefault [_x,false]) then {_photos pushBack [_x,(ATLAS_photoMeta get _x) select 0]}} forEach keys (missionNamespace getVariable ["ATLAS_photoMeta",createHashMap]);
 };
 private _air=[["","Select aircraft"]];
-private _assets=if (isServer) then {vehicles select {_x isKindOf "Air" && {alive _x} && {crew _x isNotEqualTo []} && {side group effectiveCommander _x==side group _unit}}} else {(missionNamespace getVariable ["cTabBFTvehicles",[]]) apply {_x select 0}};
+private _assets=if (isServer) then {vehicles select {_x isKindOf "Air" && {alive _x} && {crew _x isNotEqualTo []} && {side group effectiveCommander _x==side group _unit}}} else {([] call SICS_fnc_trackEntries) apply {_x select 0}};
 if (vehicle _unit isKindOf "Air") then {_assets pushBackUnique vehicle _unit};
 {if (_x isKindOf "Air" && {alive _x}) then {_air pushBack [netId _x,format ["%1 / %2",groupId group effectiveCommander _x,getText(configOf _x >> "displayName")]]}} forEach _assets;
 switch _kind do {

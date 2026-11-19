@@ -10,4 +10,4 @@ The thumbnail retains the existing SynapseOS hexagonal S identity. The promotion
 Suggested description hierarchy: introduction → ATLAS → devices → apps → beta status → requirements → getting started → feedback → credits.
 Use Steam headings and short lists; avoid walls of emoji, fake review scores and oversized repetitive banners.
 
-Replace offline previews with fresh in-game captures after cTab removal and validation. Desired future captures: tactical map, report editor, channel chat, aircraft display and TOC. Do not present these as available screenshots until captured.
+Replace offline previews with fresh in-game captures after the standalone candidate passes acceptance. Desired captures: tactical map, report editor, channel chat, aircraft display and TOC. Do not present these as available screenshots until captured.

@@ -16,8 +16,7 @@ if (SICS_osApp=="CAMERA" && {!( ["camera",true] call SICS_fnc_policy )}) exitWit
 if (SICS_osApp!="ATLAS") exitWith {};
 if (missionNamespace getVariable ["SICS_cameraActive",false]) then {
     private _source=missionNamespace getVariable ["ATLAS_streamSource",objNull];
-    private _allowed=missionNamespace getVariable [["cTabUAVlist","cTabHcamlist"] select (missionNamespace getVariable ["ATLAS_streamKind",""]=="HELMET"),[]];
-    if (!([ ["drone","helmet"] select (missionNamespace getVariable ["ATLAS_streamKind",""]=="HELMET"),true] call SICS_fnc_policy)) then {_allowed=[]};
+    private _allowed=([] call SICS_fnc_isrSources) apply {_x select 0};
     if (isNull _source || {!alive _source} || {!(_source in _allowed)}) then {[] call SICS_fnc_stopCamera;(_d displayCtrl 112) ctrlSetText "STREAM LOST / source unavailable"};
 };
 private _c = _d displayCtrl 31;
@@ -40,7 +39,7 @@ if (SICS_tab=="MESSAGES") then {
     _c lbSetData [_i,netId _obj]; _c lbSetPicture [_i,_x select 1];
     if (SICS_tab!="MESSAGES" && {netId _obj==_selected}) then {_c lbSetCurSel _i};
     if (SICS_tab=="MESSAGES" && {SICS_chatTarget!=""} && {SICS_chatTarget find "CH:"!=0} && {netId group _obj==SICS_chatTarget}) then {_c lbSetCurSel _i};
-} forEach ((missionNamespace getVariable ["cTabBFTgroups",[]]) + (missionNamespace getVariable ["cTabBFTvehicles",[]]) + (missionNamespace getVariable ["cTabBFTmembers",[]]));
+} forEach ([] call SICS_fnc_trackEntries);
 SICS_refreshing=false;
 [] call SICS_fnc_details;
 if (SICS_mapTool=="INSPECT" && {SICS_tab!="MESSAGES"}) then {[] call SICS_fnc_inspect};

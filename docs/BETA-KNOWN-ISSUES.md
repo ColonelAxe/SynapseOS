@@ -1,5 +1,7 @@
 # CB1 known limitations and open acceptance work
 
+> **Archived build:** This known-issues list describes the frozen cTab-dependent beta package, not the current `dev` source.
+
 This list separates implemented behaviour from work that still needs evidence. It is not a declaration that every untested scenario is broken.
 
 | Area | Current position / tester action |
@@ -25,3 +27,6 @@ No crash or SQF/asset error was observed in the final 681-check local core run. 
 - **P3:** cosmetic/wording issue with no blocked action. Record device, scale and screenshot.
 
 Record optional Camera policy restrictions as BLOCKED rather than inventing a passed photo-sharing result. A workaround must be written down and retested; it does not erase the defect.
+# Archived beta 2 known issues
+
+This page describes the frozen cTab-dependent beta 2 build, not the current cTab-free `dev` source.

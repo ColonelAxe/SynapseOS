@@ -1,9 +1,9 @@
-// Positions are sampled from cTab-authorised objects. No enemy discovery.
+// Positions are sampled from the server-authorised SynapseOS track roster.
 if (diag_tickTime-(missionNamespace getVariable ["SICS_trackTick",-10])<1) exitWith {};
 SICS_trackTick=diag_tickTime;
 if (isNil "SICS_tracks") then {SICS_tracks=createHashMap};
-private _entries=+(missionNamespace getVariable ["cTabBFTvehicles",[]]);
-if (!isNull objectParent player) then {_entries pushBack [vehicle player,"","",groupId group player,""]};
+private _entries=[] call SICS_fnc_trackEntries;
+if (!isNull objectParent player) then {_entries pushBack [vehicle player,"","",format ["%1 / %2",groupId group player,getText (configOf vehicle player >> "displayName")]]};
 private _keys=[];
 {
     private _v=_x select 0;

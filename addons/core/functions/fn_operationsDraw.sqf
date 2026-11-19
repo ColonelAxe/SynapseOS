@@ -19,8 +19,10 @@ private _layers=if (_room) then {[true,true,true]} else {missionNamespace getVar
     };
     if (_kind=="CONTACT" && {_layers select 1} && {_status!="RESOLVED"} && {!_room}) then {
         private _stale=serverTime>(_d getOrDefault ["expires",1e12]);
+        private _age=floor ((serverTime-(_d getOrDefault ["observed",serverTime])) max 0);
+        private _ageLabel=if (_stale) then {"EXPIRED"} else {if (_age<60) then {"JUST NOW"} else {format ["%1m",floor (_age/60)]}};
         private _c=([_d get "affiliation"] call SICS_fnc_affiliation) select 3;if (_stale) then {_c=[0.65,0.65,0.65,0.6]};
-        if (markerType ("SICS_CONTACT_"+str (_d getOrDefault ["record",-1]))=="") then {_map drawIcon [getText(configFile >> "CfgMarkers" >> (_d get "symbol") >> "icon"),_c,_pos,25,25,_d getOrDefault ["heading",0],format ["%1 / %2%3",_title,_d get "confidence",[""," / STALE"] select _stale],1,0.026,"RobotoCondensed"]};
+        if (markerType ("SICS_CONTACT_"+str (_d getOrDefault ["record",-1]))=="") then {_map drawIcon [getText(configFile >> "CfgMarkers" >> (_d get "symbol") >> "icon"),_c,_pos,25,25,_d getOrDefault ["heading",0],format ["%1 / %2 / %3",_title,_d getOrDefault ["confidence","SUSPECTED"],_ageLabel],1,0.026,"RobotoCondensed"]};
     };
     if (_kind in ["SUPPORT","LZ","AIR_TASK"] && {_layers select 2} && {_status!="CANCELLED"} && {_status!="COMPLETED"} && {!_room || {_planFilter==""}}) then {
         _map drawIcon [_icon,[0.3,1,0.7,1],_pos,24,24,0,format ["%1 / %2",_title,_status],1,0.025,"RobotoCondensed"];

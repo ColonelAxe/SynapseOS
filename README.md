@@ -2,17 +2,19 @@
 
 SynapseOS is a modular device platform for Arma 3. Its first tactical application, ATLAS, provides BFT, messaging, ISR access, orders, reporting, callsigns and mission-defined TOC terminals. This project contains editable source, release artifacts and an interactive design preview.
 
+The interface separates **Field User** tasks and personal settings from **Mission Setup** in Eden and live **Command Element** workflows in Operations. See the [usability model](docs/USABILITY-MODEL.md) for the roles, setup sequence and permission boundaries.
+
 The project folder is `SynapseOS`. ATLAS remains the battlefield-management app; existing `SICS_fnc_*` / `ATLAS_fnc_*` APIs, addon paths and inventory class IDs retain compatibility. Previously frozen beta archives keep their original names and binary checksums. See [project naming](docs/PROJECT-NAMING.md).
 
-**0.12.0-beta.2 / Closed beta:** Operations planning, shared routes and GPS guidance, contact confidence, order lifecycle/deadlines, support requests, air-ground coordination, shared TOC screens, Eden policy, workspace presets and mission journal. See [Operations guide](docs/OPERATIONS.md). Also includes notification centre with direct record/conversation opening, local notification/audio/text/declutter preferences, beta diagnostics, stronger session/photo cleanup, signed PBO and a separately versioned eight-slot CB1 acceptance mission. Start with [the beta guide](docs/BETA-TESTING.md); use [the issue template](docs/BETA-ISSUE-TEMPLATE.md) to report defects.
+**0.12.0-beta.3 candidate:** cTab-free addon source and PBO, with SynapseOS-owned devices, BFT snapshots, marker rendering, vehicle-seat rules, aviation routing and ISR camera lifecycle. Requires Arma 3 + CBA_A3; ACE is optional. This candidate has compiled, but has not passed a clean Arma launch or in-game smoke run. Do not treat it as a public release yet. See the [release workup](docs/PRODUCT-WORKUP.md).
 
 **v0.8: ATLAS on SynapseOS.** A device launcher with an ATLAS application icon, a single-key moving GPS/full-device workflow, saved app sessions, realistic rugged hardware, a horizontal JTAC handset on foot, and large mounted vehicle/aircraft consoles. Includes custom chats, structured map reports, notifications, live friendly tracking and the unit inspector.
 
 **v0.8.1:** separate ATLAS Tablet and ATLAS Phone arsenal items, optional ACE self-interaction device selection, and remembered personal-device preference.
 
-**v0.10:** Windows-style SynapseOS desktop, unified cyan app icons, Settings/profile app, cTab-style controls, real aircraft TAD, helmet/UAV feeds, native drone role controls and a separate Camera app with report-photo transfer. See `docs/MEDIA.md` for the Windows x64 extension and Arma 3 2.22 requirements for photographs.
+**v0.12.0-beta.3 candidate:** SynapseOS-owned device classes, BFT snapshots, map symbology, vehicle access policy, aviation display routing and ISR camera lifecycle. Requires Arma 3 and CBA_A3; no cTab runtime dependency. See `docs/PRODUCT-WORKUP.md` for the remaining no-cTab in-game acceptance gate.
 
-**Status:** closed-beta candidate. The frozen 0.12.0-beta.2 core passed 681 native checks and 20 isolated dedicated-backend checks. CB1 adds a separate eight-slot acceptance mission and organiser/tester release kit. Start with [the closed-beta checklist](docs/CLOSED-BETA-START-HERE.md); see [current core validation](docs/BETA2-VALIDATION.md) for exact scope. Real-client multiplayer/JIP, competing operators, third-party radio sessions and extension-policy compatibility remain acceptance work.
+**Status:** independent candidate in development. The older frozen 0.12.0-beta.2 build passed 681 native checks and 20 isolated dedicated-backend checks while cTab was installed; those results do not validate this new runtime. Clean Arma startup, no-cTab functional checks, real-client multiplayer/JIP, competing operators, third-party radio sessions and extension-policy compatibility remain release gates. Historical beta instructions are labeled in the docs.
 
 ![Interface reference](docs/sics-interface.png)
 
@@ -43,13 +45,13 @@ The moving GPS is noninteractive, keeping movement and vehicle controls availabl
 | Zoom In / Out | Ctrl+Shift+Page Up / Page Down | Change overlay or visible tactical-map scale |
 | Toggle Interface Position | Ctrl+Shift+Home | Swap overlay sides; reset full device to centre |
 
-In enabled helicopter/aircraft seats, Main and Secondary use the original cTab TAD overlay and interactive display, including its controls and BFT symbology. Tertiary returns to carried equipment. ATLAS uses U-based toggle defaults so cTab's H-based defaults do not open both interfaces. The previous single-cycle binding is replaced; minimize buttons and the legacy cycle function remain available.
+In enabled helicopter/aircraft seats, Main and Secondary use SynapseOS's aviation display and BFT symbology. Tertiary returns to carried equipment. ATLAS uses configurable CBA keybinds; minimize buttons and the legacy cycle function remain available.
 
 In **ISR**, choose an authorised active drone, then **Pilot**, **Turret / weapons**, or **UAV terminal**. A compatible UAV terminal is required; native Arma ownership and occupied-seat checks apply. Turret control uses weapons fitted to the selected vehicle. Select a listed helmet camera to watch its feed. Streams close when leaving the app or device.
 
 Open **Settings** to change personal callsign, role and display rank. Accepted profiles are saved locally per UID and published by the server. Save a stored profile again to apply it to a new mission/player object. Group callsign has a separate leader-only control. Display rank does not change Arma rank, leadership or commander permissions.
 
-On foot, supported carried cTab equipment opens a horizontal JTAC handset. `ItemMicroDAGR` provides a compact portable variant; `ItemcTab` additionally allows the rugged tablet through the device selector. Enabled ground-vehicle seats open a large console; pilot/copilot seats open the aviation console. Vehicle access follows cTab's `cTab_fnc_unitInEnabledVehicleSeat` and its FBCB2/TAD class lists on the client and server. Rear passengers need their own personal device. Exiting a mounted console closes it; the next opening resolves the new context. TOC terminals use a large workstation.
+On foot, `ATLAS_Phone`, `ATLAS_MicroDAGR`, or `ATLAS_Tablet` opens the matching SynapseOS layout. Enabled ground-vehicle seats open a large console; pilot/copilot seats open the aviation console. SynapseOS applies its own vehicle-class and seat rules; mission makers can override allowed classes. Rear passengers need their own personal device. Exiting a mounted console closes it; the next opening resolves the new context. TOC terminals use a large workstation.
 
 ATLAS retains selected unit, map position/zoom, current application tab and chat, message/report composer text, and suspended contact/channel forms within the current mission and side. Cancelling a form discards that form's draft. Normal server audience checks still apply when restoring chats. Complex forms use an expanded workspace for readable inputs on handhelds.
 
@@ -83,7 +85,7 @@ Incoming messages, reports, orders and order acknowledgements produce an app not
 
 Incoming notifications include a visual banner and a local spoken cue: new message, report, contact report, order, acknowledgement, channel update or general information. Channel access changes/deletion and server notices also receive feedback. Speech is queued to avoid overlapping voices and uses the game's audio volume. Bundled English voice clips are generated by `tools/create-notification-audio.ps1` using Windows speech synthesis. Routine outgoing transmission confirmations and replayed history remain quiet. The offline browser preview plays equivalent clips when browser autoplay policy permits; this limitation does not apply to native Arma playback.
 
-Friendly vehicles supplied by cTab update at their live position, with recent trails, heading, speed and aircraft altitude. This does not discover enemy vehicles. In **Grid selector** mode click a friendly map symbol, pan away, then use **Centre selected** to return to its current position. **My position** centres your own unit separately.
+Friendly equipped dismounted units and crewed vehicles are sampled by SynapseOS and update with position, heading, speed and aircraft altitude. This does not discover enemy vehicles. In **Grid selector** mode click a friendly map symbol, pan away, then use **Centre selected** to return to its current position. **My position** centres your own unit separately.
 
 The supplied PBO is unsigned. A server enforcing signatures needs the server owner's signing process; no private key is supplied.
 
@@ -97,8 +99,8 @@ The supplied PBO is unsigned. A server enforcing signatures needs the server own
 - **Messages:** choose All stations or a friendly element, read the chronological conversation, and type in the bottom composer. Enter sends; Shift+Enter adds a new line. Your draft clears after server acceptance. Broadcasts also appear in element conversations; private group-targeted messages remain server-filtered. This is a C2 chat design inspired by the requested workflow, not a claimed reproduction of a proprietary ELIAS specification.
 - C2 / Reports: choose priority and recipient, enter text, then transmit. Empty recipient means all stations on your side.
 - Only group leaders or units with `ATLAS_commander = true` may issue orders. Recipients can acknowledge selected C2 records. Acknowledgements identify groups.
-- Only the group leader may change its global callsign. cTab picks up the changed group ID on its normal update pulse.
-- ISR: select a friendly UAV for a cTab render-to-texture driver feed. Use “Link UAV terminal” for the engine's sensor and turret controls. A compatible assigned UAV terminal is needed for native linking; engine occupancy and permissions apply. Picture-in-picture must be enabled for embedded video.
+- Only the group leader may change its global callsign. SynapseOS updates the shared track label from the group ID.
+- ISR: select an authorised friendly UAV or ATLAS helmet-camera source for a SynapseOS camera feed. Use “Link UAV terminal” for the engine's sensor and turret controls. A compatible assigned UAV terminal is needed for native linking; engine occupancy and permissions apply. Picture-in-picture must be enabled for embedded video.
 
 ## Mission makers: TOC room
 
@@ -130,9 +132,9 @@ TFAR and ACRE2 are optional. Their public APIs populate a radio-possession statu
 
 ## Data and security model
 
-The addon calls cTab's gear checks, BFT and user-marker drawing, BFT roster arrays and UAV camera functions. It leaves the original cTab interface and update loop intact. Use one UAV camera interface at a time: cTab's camera manager owns shared render resources.
+The production addon uses SynapseOS-owned gear checks, BFT snapshots, marker rendering, vehicle-access policy, aviation display routing and ISR camera lifecycle. It does not load cTab classes, assets, functions or runtime globals. The actual camera feed and no-cTab mission path still require in-game acceptance on the target Arma build.
 
-ATLAS transmissions are an independent server-authoritative service. Every request validates the remote owner's player object, device or terminal access, payload types and lengths, recipient side and command permissions. Records are compartmentalised by **Arma side**, and targeted messages are delivered only to the target group and original sender. The server keeps the latest 300 records in memory, replays permitted records when a client opens ATLAS, and discards them on mission restart. Text is displayed as plain text. BFT uses cTab's existing equipment and encryption rules; ATLAS messages do not inherit cross-side shared cTab encryption keys.
+ATLAS transmissions are an independent server-authoritative service. Every request validates the remote owner's player object, device or terminal access, payload types and lengths, recipient side and command permissions. Records are compartmentalised by **Arma side**, and targeted messages are delivered only to the target group and original sender. The server keeps the latest 300 records in memory, replays permitted records when a client opens ATLAS, and discards them on mission restart. Text is displayed as plain text. BFT eligibility and delivery use SynapseOS policy; radio range and TFAR/ACRE encryption are not simulated.
 
 If your mission has a restrictive `CfgRemoteExec`, merge the entries in `examples/CfgRemoteExec.hpp` into it. The receive function allows hosted-server player execution and rejects any sender other than server owner 2 at runtime. ATLAS never invokes remote script compilation.
 
@@ -147,11 +149,16 @@ node tools/check-preview.mjs
 powershell -ExecutionPolicy Bypass -File tools/package.ps1
 ```
 
-HEMTT rapifies the config and compiles/checks SQF before writing the PBO. No Arma Tools binarisation is needed for this script-only addon. The UI check uses installed Microsoft Edge headless; set `ATLAS_BROWSER` to another Chromium executable if needed. It creates a disposable temporary browser profile and never opens your personal profile.
+HEMTT rapifies the config and compiles/checks SQF before writing the PBO. No Arma Tools binarisation is needed for this script-only addon. `tools/package.ps1` now creates a versioned candidate with a signed PBO, public key, source archive and checksums; it does not publish or upload anything. The UI check uses installed Microsoft Edge headless; set `ATLAS_BROWSER` to another Chromium executable if needed. It creates a disposable temporary browser profile and never opens your personal profile.
 
 ## Verification still required in Arma
 
-Use `docs/IN-GAME-TESTS.md` before a public server release. Dedicated-server ownership validation, hosted sessions, side isolation, target filtering, JIP replay, respawn, terminal distance, varying UI scales, UAV camera availability and TFAR/ACRE2 combinations still need acceptance testing. The successful local smoke test does not establish multiplayer correctness.
+Use `docs/IN-GAME-TESTS.md` before a public server release. `powershell -ExecutionPolicy Bypass -File tools/launch-test.ps1` launches the local CBA-only harness full-screen; use `-Windowed` to test in a window. Start Steam first. Dedicated-server ownership validation, hosted sessions, side isolation, target filtering, JIP replay, respawn, terminal distance, varying UI scales, UAV camera availability and TFAR/ACRE2 combinations still need acceptance testing. The older passing smoke results belong to the cTab-dependent beta 2 build and do not establish standalone runtime correctness.
 
 API references: [Bohemia CfgFunctions](https://community.bohemia.net/wiki/CfgFunctions), [ACRE2 functions](https://acre2.idi-systems.com/wiki/frameworks/functions-list), [TFAR repository](https://github.com/michail-nikolaev/task-force-arma-3-radio).
 
+
+
+## Branch workflow
+
+Development and beta testing go to dev. Keep main for reviewed releases and mod updates; promote a validated dev build through a pull request. See [docs/DEVELOPMENT-WORKFLOW.md](docs/DEVELOPMENT-WORKFLOW.md).

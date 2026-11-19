@@ -8,7 +8,7 @@ v0.2.1 local checks also passed for the tablet frame/aspect ratio, marker editor
 
 ## Environment
 
-Arma 3 2.18+, CBA_A3, original cTab and ATLAS. Run a hosted session, then a dedicated server with two friendly groups and a second-side player. Repeat with TFAR only, ACRE2 only, and neither. Check RPTs after each test. Do not load both radio mods for a normal acceptance run.
+Arma 3 2.18+, CBA_A3 and SynapseOS only for the baseline run. Do not load cTab. Run a hosted session, then a dedicated server with two friendly groups and a second-side player. Repeat with TFAR only, ACRE2 only, and neither. Check RPTs after each test. Do not load both radio mods for a normal acceptance run.
 
 ## SynapseOS and device lifecycle
 
@@ -27,8 +27,8 @@ Arma 3 2.18+, CBA_A3, original cTab and ATLAS. Run a hosted session, then a dedi
 
 - Ctrl+U toggles the full device with supported equipment and refuses without access; U toggles the moving GPS independently.
 - All six tabs remain usable at 16:9 and 21:9 and small/normal/large UI scales.
-- Map pan, zoom, roster centring, NATO BFT symbols and existing cTab user markers work.
-- A moving equipped group updates on cTab's normal pulse; unequipped groups are not spuriously revealed.
+- Map pan, zoom, roster centring, NATO BFT symbols and SynapseOS markers work.
+- A moving equipped group updates on SynapseOS's sampling pulse; unequipped groups are not spuriously revealed.
 - Changing callsign as leader updates global group ID and BFT labels. A nonleader request is refused.
 - Close/reopen repeatedly; ensure there are no duplicate CBA handlers or leaking camera objects.
 
@@ -48,11 +48,11 @@ Arma 3 2.18+, CBA_A3, original cTab and ATLAS. Run a hosted session, then a dedi
 ## ISR
 
 - Alive friendly UAVs appear; enemy UAVs are excluded.
-- Selecting an asset with supported driver camera memory points shows a live cTab PiP feed.
+- Selecting an authorised UAV or helmet camera shows the SynapseOS camera feed.
 - Missing camera points produce fallback text; turning off PiP behaves understandably.
 - Native terminal linking needs a compatible assigned terminal, respects UAV access and existing role occupancy.
 - Test Pilot and Turret/weapons separately, release control, and verify occupied roles cannot be stolen from another player. Fire only in a controlled test mission.
-- Switching pages or closing removes only the camera opened by the SICS session. Test interactions with original cTab camera mode; concurrent camera-manager ownership is unsupported.
+- Switching pages or closing removes the camera opened by the SynapseOS session.
 
 ## Camera and report photographs
 

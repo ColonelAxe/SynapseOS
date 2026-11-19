@@ -1,5 +1,6 @@
 [h2]Initial private staging upload[/h2]
 SynapseOS modular tactical platform featuring ATLAS.
 This private upload is a distribution staging build, not a public release.
-Current staged package retains its cTab and CBA dependencies.
-The cTab-free migration and separate-client multiplayer acceptance are pending.
+0.12.0-beta.3 candidate removes the cTab runtime dependency and introduces SynapseOS-owned device, BFT, marker, vehicle-access, aviation and ISR paths.
+Requires Arma 3 and CBA_A3. ACE remains optional.
+The candidate is signed and builds, but clean Arma launch, in-game acceptance and separate-client multiplayer validation are still pending.

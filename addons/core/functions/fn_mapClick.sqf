@@ -32,7 +32,7 @@ if (_tool in ["GRID","INSPECT"]) then {
             private _d=_screen distance2D [_this select 2,_this select 3];
             if (_d<_distance) then {_distance=_d;_nearest=_obj};
         };
-    } forEach ((missionNamespace getVariable ["cTabBFTgroups",[]])+(missionNamespace getVariable ["cTabBFTvehicles",[]])+(missionNamespace getVariable ["cTabBFTmembers",[]]));
+    } forEach ([] call SICS_fnc_trackEntries);
     if (!isNull _nearest) then {SICS_selectedUnit=_nearest;[] call SICS_fnc_details};
     if (_tool=="INSPECT") exitWith {
         if (isNull _nearest) then {(findDisplay 87000 displayCtrl 60) ctrlSetText "INSPECT UNIT  /  No friendly symbol here. Previous selection retained."} else {

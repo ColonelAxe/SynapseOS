@@ -1,6 +1,6 @@
 # ATLAS Operations — beta 2
 
-Open **Operations** from the SynapseOS desktop. Its shared map and seven tabs extend the existing ATLAS tactical app; messaging, ISR and the normal map tools remain in ATLAS.
+Open **Operations** from the SynapseOS desktop. Its shared map and seven tabs extend the existing ATLAS tactical app; messaging, ISR and the normal map tools remain in ATLAS. Operations chooses a starting view from the operator's Settings role: pilot/aviation opens Air, JTAC/TACP opens Contacts, command/TOC/HQ opens Timeline, and platoon/squad leaders open Plans. This is a display preference only; it never grants mission permissions, and every tab remains available.
 
 ## Planning and navigation
 
@@ -10,7 +10,7 @@ Select a route and **Follow**. The moving GPS and air TAD show its checkpoints, 
 
 ## Reports and contact confidence
 
-The tactical map's contact-report form includes affiliation, every compatible loaded NATO marker, element type, strength, confidence, observation age, expiry and direction. Operations **Contacts** also supports an observation photograph and subsequent updates to the same report. Select a contact and edit it to update its observation instead of creating another marker. Concurrent stale revisions are refused: reopen the latest version before retrying.
+The tactical map's contact-report form includes affiliation, every compatible loaded NATO marker, element type, strength, confidence, observation age, expiry and direction. Operations **Contacts** also supports an observation photograph and subsequent updates to the same report. Select a contact and edit it to update its observation instead of creating another marker. Map labels show confidence and elapsed observation age; selected details classify reports as fresh, recent, aging or expired. Concurrent stale revisions are refused: reopen the latest version before retrying.
 
 Affiliation controls symbol family and colour. Expired observations fade and are labelled stale; expiry is not evidence that a contact disappeared. Resolving a contact hides its marker while retaining its report and journal history. Heading and age are observer estimates. Photographs use the existing Camera capture/mission-transfer pipeline and its access checks.
 
@@ -34,16 +34,16 @@ Trusted mission code can register a screen on the server:
 
 Use a screen with a retexturable selection; the index is model-specific. Maximum 20 active screens. Shared-room graphics must be published and side-shared, rather than restricted to a private group. JIP clients receive the screen registry and current selection. The display uses Arma's [UI procedural texture](https://community.bistudio.com/wiki/Procedural_Textures).
 
-## Mission policy, profiles and journal
+## Mission policy, profiles and timeline
 
-Place the **ATLAS mission settings** Eden module to permit devices, vehicle consoles, Camera, UAV/helmet feeds, BFT, overlays and support separately. It also configures contact lifetime, journal retention, an optional vehicle class allowlist and command assignment rules. Eden unit attributes assign commander privileges; object attributes configure compatible vehicle consoles and TOC screens. Mission-server code may call `ATLAS_fnc_configureMission` with a hashmap of policy values. This trusted configuration API refuses remote execution.
+Use Eden's **SynapseOS / Command Element Setup** category to place **Command Element Setup / Mission Policy**. Its labelled sections configure device availability, sensors/BFT, live command tools, record retention and optional vehicle classes. Assign commander authority separately on the HQ unit; set up supported vehicle consoles and TOC displays on their objects. This separates mission maker configuration from each player's **My Settings** and from live **Operations**. Mission-server code may call `ATLAS_fnc_configureMission` with a hashmap of policy values. This trusted configuration API refuses remote execution. See the [usability model](USABILITY-MODEL.md) for the complete setup flow.
 
 **Presets** saves local workspace preferences, map view, layers and preferred available carried device. Built-in JTAC, Platoon Leader and Pilot starting layouts are included. Settings links to this workspace screen. Presets never grant equipment or command authority and never persist another mission's private entity IDs. Map coordinates restore only on the same terrain. Maximum 20 saved layouts.
 
-**Journal** provides the authorised chronological view of reports, order progression, operations changes and briefing actions. Export writes that filtered view to the local Arma RPT for handover/AAR. It does not export private chat bodies. This is a bounded mission journal, not a persistent campaign database or full movement replay.
+**Timeline** provides the authorised chronological view of reports, order progression, operations changes and briefing actions. Filter by event type, select an entry to locate its grid on the map, and export the currently filtered view to the local Arma RPT for handover/AAR. It does not export private chat bodies. This is a bounded mission journal, not a persistent campaign database or full movement replay.
 
 ## Feed status and beta limits
 
-ATLAS supplements cTab's authorised BFT list with same-side server observation timestamps. Live is up to 15 seconds old; stale is 15–45 seconds; lost feed is over 45 seconds. Stale tracks retain their sampled position instead of presenting continuing engine movement as fresh information. Lost tracks stop drawing after 120 seconds. A cTab-authorised track without a timestamp is explicitly unverified. This status describes data freshness, not simulated TFAR/ACRE RF propagation. Original cTab TAD tracking remains supplied by cTab.
+SynapseOS supplies its own same-side server snapshots and freshness timestamps for equipped dismounted units and crewed vehicles. Live is up to 15 seconds old; stale is 15–45 seconds; lost feed is over 45 seconds. Stale tracks retain their sampled position instead of presenting continuing engine movement as fresh information. Lost tracks stop drawing after 120 seconds. This status describes data freshness, not simulated TFAR/ACRE RF propagation. The aviation display uses the same SynapseOS track feed.
 
 Operations are server-authoritative, side/audience filtered, revision checked and rate limited. Up to 512 active entities, 64 points per graphic, 100–2000 journal events, and 20 local presets. Entities survive reconnect/JIP within the running mission, not server restarts. Camera transfer and every multiplayer/JIP permission scenario still require testing with real separate clients before public release.

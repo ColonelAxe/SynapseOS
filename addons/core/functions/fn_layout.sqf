@@ -1,4 +1,4 @@
-// Reference-led presentation; transport and cTab data contracts stay unchanged.
+// Reference-led presentation; the SynapseOS transport contract stays stable.
 disableSerialization;
 private _d=findDisplay 87000;
 private _place={params ["_id","_r"]; private _c=findDisplay 87000 displayCtrl _id; _c ctrlSetPosition (_r call SICS_fnc_rect); _c ctrlCommit 0};

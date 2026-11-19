@@ -21,10 +21,14 @@ private _top=_wallRect select 1;
 (_d displayCtrl 1003) ctrlSetTooltip "SynapseOS system tray";
 private _apps=(values SYNAPSE_apps) select {[] call (_x select 4)};
 _apps sort true;
+[
+    "SICS_Header",1000,[0.055,_top+0.047,0.42,0.025],"FIELD USER / APPLICATIONS"
+] call SICS_fnc_control;
+private _appsTop=_top+0.09;
 private _page=(missionNamespace getVariable ["SICS_osPage",0]) max 0 min ((ceil(count _apps/8)-1) max 0);SICS_osPage=_page;
 SICS_osAppWidgets=[];
 {
-    private _index=_forEachIndex;private _xpos=0.055+floor(_index/4)*0.15;private _y=0.145+(_index mod 4)*0.17;
+    private _index=_forEachIndex;private _xpos=0.055+floor(_index/4)*0.15;private _y=_appsTop+(_index mod 4)*0.17;
     private _ih=0.105;private _iw=_ih*(SICS_viewport select 3)/pixelH*pixelW/(SICS_viewport select 2);
     private _ix=_xpos+(0.13-_iw)/2;
     private _button=["SICS_Button",1100+_index,[_ix,_y,_iw,_ih],""] call SICS_fnc_control;

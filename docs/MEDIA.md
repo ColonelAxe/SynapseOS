@@ -2,7 +2,7 @@
 
 Camera is a separate SynapseOS app. Frame the scene by looking at it before opening the device, open Camera, enter a caption and press **Snap picture**. The live camera stays at the operator's eyes; it is not a free camera. Select a captured picture and choose **Attach to report** once its upload completes. Send the report from ATLAS. Select the report in Tactical's operations feed and choose **View report photo** to request its image.
 
-Photographs require Windows x64 clients, Arma 3 2.22 or newer, PiP enabled, and the bundled `atlas_media_x64.dll` beside `mod.cpp`. The rest of ATLAS remains SQF/cTab based. The server relays image chunks in SQF and does not load the Windows extension, allowing a Linux dedicated server. Actual dedicated-server interoperability remains an acceptance test.
+Photographs require Windows x64 clients, Arma 3 2.22 or newer, PiP enabled, and the bundled `atlas_media_x64.dll` beside `mod.cpp`. The server relays image chunks in SQF and does not load the Windows extension, allowing a Linux dedicated server. Actual dedicated-server interoperability remains an acceptance test.
 
 ## Image data
 
@@ -24,6 +24,6 @@ Camera uses the [Bohemia extension texture and R2T interfaces](https://community
 
 ## Drone operation
 
-ISR lists cTab-authorised active UAVs and helmet cameras. **Pilot** requests the native UAV driver role. **Turret / weapons** requests its native gunner role, with the vehicle's fitted sensors/weapons. **UAV terminal** opens the standard terminal. Carry a compatible terminal; friendly access and occupied-role restrictions remain engine controlled. ATLAS does not force `remoteControl`, transfer vehicle locality or replace the engine's weapon controls. Release control using the native UAV controls.
+ISR lists same-side active UAVs and operators with the ATLAS helmet camera. **Pilot** requests the native UAV driver role. **Turret / weapons** requests its native gunner role, with the vehicle's fitted sensors/weapons. **UAV terminal** opens the standard terminal. Carry a compatible terminal; friendly access and occupied-role restrictions remain engine controlled. ATLAS does not force `remoteControl`, transfer vehicle locality or replace the engine's weapon controls. Release control using the native UAV controls.
 
 Aircraft Main/Secondary controls use the existing dependency's TAD renderer. Personal ATLAS equipment remains accessible through Tertiary. See SYNAPSEOS.md for device and keybinding details.

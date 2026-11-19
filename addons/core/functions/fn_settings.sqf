@@ -1,15 +1,18 @@
 disableSerialization;
 params [["_section","PROFILE"]];
 private _d=findDisplay 87000;if (isNull _d) exitWith {};
+if (_section=="MY LAYOUTS") then {_section="WORKSPACES"};
+if (_section=="MY PROFILE") then {_section="PROFILE"};
 if (_section=="WORKSPACES") exitWith {ATLAS_opsTab="PRESETS";["OPERATIONS"] call SICS_fnc_launchApp};
 {if (ctrlIDC _x>=2000 && {ctrlIDC _x<2200}) then {ctrlDelete _x}} forEach allControls _d;
 {
-    private _b=["SICS_Button",2090+_forEachIndex,[0.07+_forEachIndex*0.295,0.135,0.27,0.04],_x] call SICS_fnc_control;
-    _b setVariable ["ATLAS_settingsSection",_x];_b ctrlSetBackgroundColor (if (_x==_section) then {[0.02,0.36,0.52,1]} else {[0.06,0.12,0.17,1]});
+    _x params ["_label","_value"];
+    private _b=["SICS_Button",2090+_forEachIndex,[0.07+_forEachIndex*0.295,0.135,0.27,0.04],_label] call SICS_fnc_control;
+    _b setVariable ["ATLAS_settingsSection",_value];_b ctrlSetBackgroundColor (if (_value==_section) then {[0.02,0.36,0.52,1]} else {[0.06,0.12,0.17,1]});
     _b ctrlAddEventHandler ["ButtonClick",{[(_this select 0) getVariable "ATLAS_settingsSection"] call SICS_fnc_settings}];
-} forEach ["PROFILE","PREFERENCES","WORKSPACES"];
+} forEach [["MY PROFILE","PROFILE"],["PREFERENCES","PREFERENCES"],["MY LAYOUTS","WORKSPACES"]];
 if (_section=="PREFERENCES") exitWith {
-    ["SICS_Header",2100,[0.07,0.19,0.86,0.055],"DISPLAY / NOTIFICATIONS"] call SICS_fnc_control;
+    ["SICS_Header",2100,[0.07,0.19,0.86,0.055],"FIELD USER / DISPLAY & NOTIFICATIONS"] call SICS_fnc_control;
     {
         _x params ["_key","_title","_enabled"];
         private _y=0.285+_forEachIndex*0.09;
@@ -33,11 +36,11 @@ if (_section=="PREFERENCES") exitWith {
     ["SICS_Text",2142,[0.07,0.85,0.86,0.055],"Preferences are local. NATO markers and tracking eligibility remain controlled by the mission."] call SICS_fnc_control;
     [] call SICS_fnc_appHeader;[_d] call SICS_fnc_fitText;
 };
-(_d displayCtrl 2) ctrlSetText "SynapseOS / Settings";
+(_d displayCtrl 2) ctrlSetText "SynapseOS / My Settings";
 (_d displayCtrl 6) ctrlSetText "\x\sics\addons\core\ui\synapse_logo_ca.paa";
 private _profile=player getVariable ["ATLAS_profile",profileNamespace getVariable ["ATLAS_profile_"+getPlayerUID player,[]]];
 if (_profile isEqualTo []) then {_profile=[player] call SICS_fnc_profile};
-["SICS_Header",2000,[0.07,0.19,0.86,0.055],"OPERATOR PROFILE"] call SICS_fnc_control;
+["SICS_Header",2000,[0.07,0.19,0.86,0.055],"FIELD USER / MY PROFILE"] call SICS_fnc_control;
 ["SICS_Text",2001,[0.07,0.275,0.40,0.04],"PERSONAL CALLSIGN"] call SICS_fnc_control;
 ["SICS_Edit",2002,[0.07,0.32,0.40,0.065],_profile select 0] call SICS_fnc_control;
 ["SICS_Text",2003,[0.53,0.275,0.40,0.04],"ROLE"] call SICS_fnc_control;
@@ -45,7 +48,7 @@ if (_profile isEqualTo []) then {_profile=[player] call SICS_fnc_profile};
 ["SICS_Text",2005,[0.07,0.425,0.40,0.04],"DISPLAY RANK"] call SICS_fnc_control;
 private _rank=["SICS_Combo",2006,[0.07,0.47,0.40,0.065]] call SICS_fnc_control;
 {private _i=_rank lbAdd _x;if (_x==_profile select 2) then {_rank lbSetCurSel _i}} forEach ["PRIVATE","CORPORAL","SERGEANT","LIEUTENANT","CAPTAIN","MAJOR","COLONEL"];
-["SICS_Text",2007,[0.53,0.425,0.40,0.14],"Profile rank is cosmetic. Mission rank and command permissions remain under mission control."] call SICS_fnc_control;
+["SICS_Text",2007,[0.53,0.425,0.40,0.14],"Your role selects a suggested Operations view. It does not grant mission or commander permissions."] call SICS_fnc_control;
 private _save=["SICS_Button",2008,[0.07,0.59,0.40,0.065],"Save profile"] call SICS_fnc_control;
 _save ctrlAddEventHandler ["ButtonClick",{
     private _d=findDisplay 87000;
@@ -59,5 +62,5 @@ private _group=["SICS_Edit",2010,[0.07,0.75,0.40,0.065],groupId group player] ca
 private _apply=["SICS_Button",2011,[0.53,0.75,0.40,0.065],"Update unit callsign"] call SICS_fnc_control;
 _group ctrlEnable (leader group player==player);_apply ctrlEnable (leader group player==player);
 _apply ctrlAddEventHandler ["ButtonClick",{[player,"CALLSIGN",[ctrlText(findDisplay 87000 displayCtrl 2010)],SICS_terminal] remoteExecCall ["SICS_fnc_server",2]}];
-["SICS_Text",2012,[0.07,0.85,0.86,0.065],"Profile changes are saved locally after server acceptance."] call SICS_fnc_control;
+["SICS_Text",2012,[0.07,0.85,0.86,0.065],"Profile changes are saved after server acceptance. Mission authority is configured separately by mission makers."] call SICS_fnc_control;
 [] call SICS_fnc_appHeader;[_d] call SICS_fnc_fitText;

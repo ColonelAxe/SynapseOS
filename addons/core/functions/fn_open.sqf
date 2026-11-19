@@ -1,9 +1,8 @@
 disableSerialization;
 params [["_terminal",objNull],["_device",""],["_startApp","ATLAS"]];
 if (!hasInterface || {!isNull findDisplay 87000}) exitWith {};
-if (!([player,_terminal] call SICS_fnc_access)) exitWith {hint "ATLAS requires a carried cTab device, enabled vehicle seat or authorised TOC terminal."};
+if (!([player,_terminal] call SICS_fnc_access)) exitWith {hint "ATLAS requires a carried SynapseOS device, enabled vehicle seat or authorised TOC terminal."};
 if (missionNamespace getVariable ["SICS_markerSide",sideUnknown]!=sideUnknown && {SICS_markerSide!=side group player}) then {[] call SICS_fnc_resetClient;SICS_markerSide=side group player};
-[] call cTab_fnc_close;
 if (missionNamespace getVariable ["SICS_quickActive",false]) then {[] call SICS_fnc_quickView};
 SICS_osApp="ATLAS";SICS_deviceState="FULL";
 ATLAS_interfaceRole="SECONDARY";
@@ -146,25 +145,4 @@ _feed ctrlAddEventHandler ["LBSelChanged",{
     };
 }];
 ["SICS_ReadOnly",52,[0.755,0.59,0.21,0.15],"Select a record to read details."] call SICS_fnc_control;
-["SICS_Text",60,[0.045,0.915,0.90,0.025],"ATLAS // FIELD TABLET    |    CHOOSE A MAP TOOL ABOVE THE MAP    |    SIDE DATA"] call SICS_fnc_control;
-private _centre=["SICS_Button",61,[0.22,0.885,0.10,0.028],"CENTRE"] call SICS_fnc_control;
-_centre ctrlAddEventHandler ["ButtonClick",{[false] call SICS_fnc_centre}];
-private _self=["SICS_Button",63,[0.47,0.885,0.12,0.028],"My position"] call SICS_fnc_control;
-_self ctrlAddEventHandler ["ButtonClick",{[true] call SICS_fnc_centre}];
-private _expand=["SICS_Button",62,[0.33,0.885,0.10,0.028],"EXPAND MAP"] call SICS_fnc_control;
-_expand ctrlAddEventHandler ["ButtonClick",{
-    SICS_expanded=!(missionNamespace getVariable ["SICS_expanded",false]);
-    private _d=findDisplay 87000;
-    private _m=_d displayCtrl 40;
-    {if (ctrlIDC _x>=50 && {ctrlIDC _x<=52} || {ctrlIDC _x>=100}) then {_x ctrlShow !SICS_expanded}} forEach allControls _d;
-    if (!SICS_expanded) exitWith {[] call SICS_fnc_page};
-    {(_d displayCtrl _x) ctrlShow false} forEach [30,31,32,33,34];
-    _m ctrlSetPosition ([0.045,0.225,0.91,0.61] call SICS_fnc_rect);_m ctrlCommit 0;
-}];
-[_device] call SICS_fnc_deviceLayout;
-[player,"SYNC",[],_terminal] remoteExecCall ["SICS_fnc_server",2];
-SICS_refreshHandle = [{[] call SICS_fnc_refresh},2] call CBA_fnc_addPerFrameHandler;
-[] call SICS_fnc_refresh;
-if (_startApp=="HOME") then {[] call SICS_fnc_osHome} else {if (_startApp=="ATLAS") then {[] call SICS_fnc_resumeSession} else {[_startApp] call SICS_fnc_launchApp}};
-diag_log format ["SICS_UI READY: controls=%1 title=%2 map=%3",count allControls _d,ctrlText (_d displayCtrl 2),ctrlShown (_d displayCtrl 40)];
-
+["SICS_Text",60,[0.045,0.915,0.90,0.025],"ATLAS // FIELD TABLET    |    CHOOSGm9¶‰žËkºwµçR“°¢&—fFRöCÖf–æDF—7Æ’ƒs°¢&—fFRöÓÕöBF—7Æ”7G&ÂC°¢¶–b†7G&Ä”D2÷ƒãÓSbb¶7G&Ä”D2÷ƒÃÓS'ÒÇÂ¶7G&Ä”D2÷ƒãÓÒ’F†Vâµ÷‚7G&Å6†÷r4”55öW‡æFVG×Òf÷$V6‚ÆÄ6öçG&öÇ2öC°¢–b‚4”55öW‡æFVB’W†—Ev—F‚µµÒ6ÆÂ4”55öfæ5÷vWÓ°¢²…öBF—7Æ”7G&Â÷‚’7G&Å6†÷rfÇ6WÒf÷$V6‚³3Ã3Ã3"Ã32Ã3EÓ°¢öÒ7G&Å6WE÷6—F–öâ…³ãCRÃã##RÃã“ÃãcÒ6ÆÂ4”55öfæ5÷&V7B“µöÒ7G&Ä6öÖÖ—B°§ÕÓ°¥µöFWf–6UÒ6ÆÂ4”55öfæ5öFWf–6TÆ–÷WC°¥·Æ–W"Â%5”ä2"ÅµÒÅ÷FW&Ö–æÅÒ&VÖ÷FTW†V46ÆÂ²%4”55öfæ5÷6W'fW""Ã%Ó°¥4”55÷&Vg&W6„†æFÆRÒ·µµÒ6ÆÂ4”55öfæ5÷&Vg&W6‡ÒÃ%Ò6ÆÂ4$öfæ5öFEW$g&ÖT†æFÆW#°¥µÒ6ÆÂ4”55öfæ5÷&Vg&W6ƒ°¦–b…÷7F'DÓÒ$„ôÔR"’F†VâµµÒ6ÆÂ4”55öfæ5ö÷4†öÖWÒVÇ6R¶–b…÷7F'DÓÒ$DÄ2"’F†VâµµÒ6ÆÂ4”55öfæ5÷&W7VÖU6W76–öçÒVÇ6Rµµ÷7F'DÒ6ÆÂ4”55öfæ5öÆVæ6„×Ó°¦F–uöÆörf÷&ÖB²%4”55õT’$TE“¢6öçG&öÇ3ÒSF—FÆSÒS"ÖÒS2"Æ6÷VçBÆÄ6öçG&öÇ2öBÆ7G&ÅFW‡B…öBF—7Æ”7G&Â"’Æ7G&Å6†÷vâ…öBF—7Æ”7G&ÂC•Ó° Ð

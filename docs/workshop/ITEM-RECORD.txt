@@ -1,5 +1,5 @@
 Workshop item ID: NOT CREATED
 Workshop URL: NOT CREATED
 Requested visibility: PRIVATE
-Build currently staged: 0.12.0 beta 2 (requires cTab and CBA)
-Target dependency baseline: Arma 3 + CBA_A3; no cTab
+Build prepared: 0.12.0-beta.3 candidate (cTab-free PBO; Arma acceptance pending)
+Dependency target: Arma 3 + CBA_A3; ACE optional; no cTab

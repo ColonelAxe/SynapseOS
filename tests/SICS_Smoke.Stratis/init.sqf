@@ -1,8 +1,8 @@
 if (!hasInterface) exitWith {};
 [] spawn {
-    waitUntil {!isNull player && {!isNil "cTab_player"}};
+    waitUntil {!isNull player};
     player allowDamage false;
-    player addItem "ItemcTab";
+    player addItem "ATLAS_Tablet";
     player linkItem "B_UavTerminal";
     player setVariable ["SICS_commander",true,true];
     group player setGroupIdGlobal ["ATLAS 6"];
@@ -10,7 +10,7 @@ if (!hasInterface) exitWith {};
         private _g=createGroup west;
         private _p=player getPos [100+_forEachIndex*100,45+_forEachIndex*50];
         private _u=_g createUnit ["B_Soldier_TL_F",_p,[],0,"NONE"];
-        _u addItem "ItemcTab"; _u disableAI "PATH";
+        _u addItem "ATLAS_Tablet"; _u disableAI "PATH";
         _g setGroupIdGlobal [_x];
     } forEach ["ALPHA 1-1","BRAVO 1-2","CHARLIE 1-3"];
     private _uav=createVehicle ["B_UAV_01_F",player getPos [12,90],[],0,"NONE"];
