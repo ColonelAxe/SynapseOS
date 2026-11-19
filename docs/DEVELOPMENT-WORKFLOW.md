@@ -10,4 +10,5 @@ Ready to republish means the package is prepared for owner testing. It does not 
 
 
 Use only dist/workshop/SynapseOS for Workshop uploads. Rebuilds update that folder in place. Do not create dated mod folders.
+Keep exactly one previous package at dist/backup/SynapseOS; replace that backup on each successful packaging cycle.
 

@@ -25,6 +25,15 @@ if ($pboText -match '(?i)cTab_|ItemcTab|ItemAndroid|cTab[A-Z]') { throw 'The pro
 $candidateRoot = Join-Path $root 'dist/workshop'
 
 $modRoot = Join-Path $candidateRoot 'SynapseOS'
+# Keep exactly one previous package, after validating all new inputs.
+$backupRoot=Join-Path $root 'dist/backup/SynapseOS'
+if (Test-Path -LiteralPath $modRoot) {
+    $expected=[IO.Path]::GetFullPath((Join-Path $root 'dist/backup/SynapseOS'))
+    if ([IO.Path]::GetFullPath($backupRoot) -ne $expected) {throw 'Unexpected backup path'}
+    if (Test-Path -LiteralPath $backupRoot) {Remove-Item -LiteralPath $backupRoot -Recurse -Force}
+    New-Item -ItemType Directory -Force (Split-Path $backupRoot) | Out-Null
+    Copy-Item -LiteralPath $modRoot -Destination $backupRoot -Recurse
+}
 New-Item -ItemType Directory -Force (Join-Path $modRoot 'addons'),(Join-Path $modRoot 'keys') | Out-Null
 Copy-Item -Force -LiteralPath $pbo -Destination (Join-Path $modRoot 'addons/sics_core.pbo')
 Copy-Item -Force -LiteralPath $signature -Destination (Join-Path $modRoot 'addons')
