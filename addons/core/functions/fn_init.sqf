@@ -22,7 +22,6 @@ if (isNil "SYNAPSE_apps") then {SYNAPSE_apps=createHashMap};
 ["SETTINGS","Settings","\x\sics\addons\core\ui\settings_glyph_ca.paa",{[] call SICS_fnc_settings}] call SICS_fnc_registerApp;
 ["CAMERA","Camera","\x\sics\addons\core\ui\camera_glyph_ca.paa",{[] call SICS_fnc_camera}] call SICS_fnc_registerApp;
 ["NOTIFICATIONS","Notifications","\x\sics\addons\core\ui\notifications_glyph_ca.paa",{[] call SICS_fnc_notifications},{true},{count ((missionNamespace getVariable ["SICS_notificationHistory",[]]) select {!(_x param [5,false])})}] call SICS_fnc_registerApp;
-["OPERATIONS","Operations","\x\sics\addons\core\ui\operations_glyph_ca.paa",{[] call SICS_fnc_operations}] call SICS_fnc_registerApp;
 ATLAS_clientOperations=createHashMap;ATLAS_clientJournal=[];ATLAS_opsLayers=[true,true,true];
 ATLAS_opsTab="PLANS";ATLAS_opsSelected="";ATLAS_opsDraftPoints=[];ATLAS_hiddenPlans=[];
 ATLAS_networkTracks=createHashMap;ATLAS_followRoute="";
@@ -81,3 +80,5 @@ SICS_clientChannels=[];SICS_channelRoster=[];SICS_channelUnread=createHashMap;SI
     ];
 };
 
+[{if (!isNull findDisplay 87000 && {missionNamespace getVariable ["SICS_osApp",""]=="ATLAS"} && {missionNamespace getVariable ["SICS_tab",""]=="ISR"}) then {[] call SICS_fnc_isrRefresh}},0.25] call CBA_fnc_addPerFrameHandler;
+[{[] call SICS_fnc_tocScreens},2] call CBA_fnc_addPerFrameHandler;

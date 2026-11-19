@@ -5,11 +5,22 @@ class CfgVehicles {
         class AttributesBase {class Default;class Edit;class Checkbox;};
         class ModuleDescription {};
     };
+    class ATLAS_ModuleTOC: Module_F {
+        scope=2;scopeCurator=0;displayName="TOC / Synced Displays";category="ATLAS_Modules";
+        function="SICS_fnc_moduleTOC";functionPriority=5;isGlobal=0;isTriggerActivated=0;
+        class Attributes: AttributesBase {
+            class tocISR: Checkbox {property="ATLAS_tocISR";displayName="Display ISR (off = tactical briefing)";defaultValue="true";expression="_this setVariable ['tocISR',_value,true]";};
+            class tocSide: Edit {property="ATLAS_tocSide";displayName="Side: 0 east / 1 west / 2 independent / 3 civilian";typeName="NUMBER";defaultValue="1";expression="_this setVariable ['tocSide',_value,true]";};
+            class tocSelection: Edit {property="ATLAS_tocSelection";displayName="Screen texture selection";typeName="NUMBER";defaultValue="0";expression="_this setVariable ['tocSelection',_value,true]";};
+        };
+        class ModuleDescription {description="Sync one UAV and one or more retexturable screens/laptops. ISR shows a live exterior camera. Disable ISR to use tactical briefing displays. Use separate modules for different feeds or texture selections. PiP must be enabled.";};
+    };
     class ATLAS_ModuleSettings: Module_F {
         scope=2;scopeCurator=0;displayName="Command Element Setup / Mission Policy";category="ATLAS_Modules";
         icon="\x\sics\addons\core\ui\settings_glyph_ca.paa";
         function="SICS_fnc_moduleSettings";functionPriority=2;isGlobal=0;isTriggerActivated=0;
         class Attributes: AttributesBase {
+            class showAI: Checkbox {property="ATLAS_showAI";displayName="[ROSTER] Include friendly AI in unit / message lists";defaultValue="false";expression="_this setVariable ['showAI',_value,true]";};
             class tablet: Checkbox {property="ATLAS_tablet";displayName="[DEVICES] Allow tablet";defaultValue="true";expression="_this setVariable ['tablet',_value,true]";};
             class phone: tablet {property="ATLAS_phone";displayName="[DEVICES] Allow phone";expression="_this setVariable ['phone',_value,true]";};
             class portable: tablet {property="ATLAS_portable";displayName="[DEVICES] Allow portable GPS";expression="_this setVariable ['portable',_value,true]";};

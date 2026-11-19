@@ -3,7 +3,7 @@ disableSerialization;
 params ["_role",["_uav",objNull]];
 if !( ["drone",true] call SICS_fnc_policy ) exitWith {hint "UAV control through ATLAS is disabled by the mission.";false};
 if (isNull _uav) then {private _list=findDisplay 87000 displayCtrl 110;if (lbCurSel _list>=0 && {_list lbValue lbCurSel _list==0}) then {_uav=objectFromNetId (_list lbData lbCurSel _list)}};
-if (isNull _uav || {!alive _uav} || {!(_uav isKindOf "UAV")} || {side _uav!=side group player}) exitWith {hint "Select an active friendly UAV.";false};
+if (isNull _uav || {!alive _uav} || {getNumber (configOf _uav >> "isUav")!=1} || {side _uav!=side group player}) exitWith {hint "Select an active friendly UAV.";false};
 if !(_role in ["DRIVER","GUNNER","TERMINAL"]) exitWith {false};
 private _seat=if (_role=="GUNNER") then {gunner _uav} else {driver _uav};
 if (_role!="TERMINAL" && {isNull _seat}) exitWith {hint "This drone has no compatible seat for that control mode.";false};

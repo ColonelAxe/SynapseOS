@@ -16,4 +16,7 @@ private _tracks=missionNamespace getVariable ["ATLAS_networkTracks",createHashMa
         _entries pushBack [_object,_picture,"",format ["%1 / %2",_callsign,_name]];
     };
 } forEach keys _tracks;
+if (["showAI",false] call SICS_fnc_policy) then {
+    {private _unit=_x;if (alive _unit && {!isPlayer _unit} && {side group _unit==side group player} && {_entries findIf {(_x select 0)==_unit}<0}) then {_entries pushBack [_unit,"\A3\ui_f\data\map\vehicleicons\iconMan_ca.paa","",format ["%1 / %2 [AI]",groupId group _unit,name _unit]]}} forEach allUnits;
+};
 _entries

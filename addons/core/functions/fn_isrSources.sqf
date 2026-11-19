@@ -3,7 +3,7 @@ private _sources=[];
 if (!hasInterface) exitWith {_sources};
 if (["drone",true] call SICS_fnc_policy) then {
     {
-        if (alive _x && {_x isKindOf "UAV"} && {side _x==side group player}) then {
+        if (alive _x && {getNumber (configOf _x >> "isUav")==1} && {side _x==side group player}) then {
             _sources pushBack [_x,"UAV",format ["UAV / %1",getText (configOf _x >> "displayName")]];
         };
     } forEach vehicles;

@@ -52,11 +52,11 @@ if (SICS_tab=="ISR") then {
     private _list = ["SICS_List",110,[0.595,0.23,0.14,0.35]] call SICS_fnc_control;
     _list ctrlAddEventHandler ["LBSelChanged",{
         params ["_list","_i"];
-        if (_i<0) exitWith {};
+        if (_i<0 || {missionNamespace getVariable ["ATLAS_isrRefreshing",false]}) exitWith {};
         [objectFromNetId (_list lbData _i),["UAV","HELMET"] select (_list lbValue _i)] call SICS_fnc_isrSelect;
     }];
     {private _i=_list lbAdd (_x select 2);_list lbSetData [_i,netId (_x select 0)];_list lbSetValue [_i,if ((_x select 1)=="HELMET") then {1} else {0}] } forEach ([] call SICS_fnc_isrSources);
-    private _link = ["SICS_Button",111,[0.595,0.61,0.14,0.05],"LINK UAV TERMINAL"] call SICS_fnc_control;
+    private _refresh=["SICS_Button",117,[0.595,0.585,0.14,0.025],"REFRESH SENSORS"] call SICS_fnc_control; _refresh ctrlAddEventHandler ["ButtonClick",{[true] call SICS_fnc_isrRefresh}]; private _link = ["SICS_Button",111,[0.595,0.61,0.14,0.05],"LINK UAV TERMINAL"] call SICS_fnc_control;
     _link ctrlAddEventHandler ["ButtonClick",{
         ["TERMINAL"] call SICS_fnc_droneControl;
     }];

@@ -44,3 +44,4 @@ SICS_refreshing=false;
 [] call SICS_fnc_details;
 if (SICS_mapTool=="INSPECT" && {SICS_tab!="MESSAGES"}) then {[] call SICS_fnc_inspect};
 
+if (SICS_tab=="ISR") then {[] call SICS_fnc_isrRefresh};

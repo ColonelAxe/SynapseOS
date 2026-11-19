@@ -1,7 +1,7 @@
 // Trusted server/Eden API. Never registered for remote execution.
 params [["_changes",createHashMap]];
 if (!isServer || {isRemoteExecuted} || {!(_changes isEqualType createHashMap)}) exitWith {false};
-private _defaults=createHashMapFromArray [["tablet",true],["phone",true],["portable",true],["vehicles",true],["camera",true],["drone",true],["helmet",true],["tracking",true],["overlays",true],["support",true],["assignedCommandOnly",false],["journalLimit",500],["contactTTL",1800],["vehicleClasses",[]]];
+private _defaults=createHashMapFromArray [["showAI",false],["tablet",true],["phone",true],["portable",true],["vehicles",true],["camera",true],["drone",true],["helmet",true],["tracking",true],["overlays",true],["support",true],["assignedCommandOnly",false],["journalLimit",500],["contactTTL",1800],["vehicleClasses",[]]];
 private _p=missionNamespace getVariable ["ATLAS_serverPolicy",_defaults];
 {
     private _value=_changes get _x;private _default=_defaults getOrDefault [_x,nil];

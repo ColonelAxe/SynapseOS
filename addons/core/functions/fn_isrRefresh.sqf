@@ -1,0 +1,11 @@
+disableSerialization;
+params [["_force",false]];
+private _list=findDisplay 87000 displayCtrl 110;
+if (isNull _list) exitWith {};
+private _sources=[] call SICS_fnc_isrSources;
+private _signature=_sources apply {[netId (_x select 0),_x select 1,_x select 2]};
+if (!_force && {_signature isEqualTo (_list getVariable ["ATLAS_signature",[]])}) exitWith {};
+private _selected=_list lbData lbCurSel _list;
+ATLAS_isrRefreshing=true;lbClear _list;
+{private _i=_list lbAdd (_x select 2);_list lbSetData [_i,netId (_x select 0)];_list lbSetValue [_i,[0,1] select ((_x select 1)=="HELMET")];if (netId (_x select 0)==_selected) then {_list lbSetCurSel _i}} forEach _sources;
+_list setVariable ["ATLAS_signature",_signature];ATLAS_isrRefreshing=false;

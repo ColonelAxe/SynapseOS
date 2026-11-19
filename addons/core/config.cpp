@@ -2,7 +2,7 @@ class CfgPatches {
     class sics_core {
         name = "SynapseOS Modular Tactical Platform";
         versionStr = "0.12.0-beta.3";
-        units[] = {"ATLAS_ModuleSettings"};
+        units[] = {"ATLAS_ModuleSettings","ATLAS_ModuleTOC"};
         weapons[] = {"ATLAS_Tablet","ATLAS_Phone","ATLAS_HelmetCam","ATLAS_MicroDAGR"};
         requiredVersion = 2.18;
         requiredAddons[] = {"cba_keybinding", "A3_UI_F", "A3_Modules_F", "A3_Weapons_F"};
@@ -40,7 +40,7 @@ class CfgFunctions {
             class notify {};
             class tracks {};
             class trackEntries {};
-            class isrSources {};
+            class isrSources {}; class isrRefresh {}; class moduleTOC {}; class tocScreens {};
             class centre {};
             class inspect {};
             class channelIdentity {};
@@ -305,4 +305,3 @@ class SICS_Display {
 };
 
 #include "mission.hpp"
-
